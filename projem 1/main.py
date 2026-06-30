@@ -5,7 +5,7 @@ import httpx
 app = FastAPI()
 
 # Kendi RapidAPI Şifren
-RAPIDAPI_KEY = "c3fc1d6f5fmsh00a84fec84ec710p15095djsn820438b65da3"
+RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY") # Şifre yerine bunu yaz"
 RAPIDAPI_HOST = "tiktok-scraper7.p.rapidapi.com" 
 
 # --- 1. KISIM: ANA SAYFAYI (ARAYÜZÜ) GÖSTEREN KOD ---
