@@ -136,7 +136,7 @@
                 inputIcon.innerText = "🔗";
                 buton.innerText = "Videoyu İndir";
             } else if (arac === 'profil') {
-                baslik.innerText = "Profil Resmi (PP) Büyütme";
+                baslik.innerText = "Profil Resmi  Büyütme";
                 aciklama.innerText = "Herhangi bir kullanıcının profil fotoğrafını HD kalitede tam boyutlu indirin.";
                 inputField.placeholder = "kullaniciadi";
                 inputIcon.innerText = "@";
@@ -243,7 +243,7 @@
                         </div>
                     `;
                 }
-                // 3. PROFİL (PP) BÜYÜTÜCÜ ARACI
+                // 3. PROFİL  BÜYÜTÜCÜ ARACI
                 else if (aktifArac === 'profil') {
                     const res = await fetch('/api/profil/' + encodeURIComponent(input));
                     const data = await res.json();
