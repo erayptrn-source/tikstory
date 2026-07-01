@@ -1,30 +1,28 @@
 <!DOCTYPE html>
 <html lang="tr">
-<head> <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9744294584076377"
-     crossorigin="anonymous"></script>
-<head> <!-- Google tag (gtag.js) -->
-<head>  <head>
+<head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- Google AdSense Kodu 1 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9744294584076377" crossorigin="anonymous"></script>
+    <!-- Google AdSense Kodu 2 -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4046540968433988" crossorigin="anonymous"></script>
+    
+    <!-- Google Analytics (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKNLJWE0YF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KKNLJWE0YF');
+    </script>
     
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
     <title>TikStory | TikTok Video İndirici ve Anonim Hikaye Görüntüleme</title>
-    <meta name="description" content="TikStory ile TikTok hikayelerini anonim şekilde  indirin, TikTok hikayelerini filigransız olarak indirin  . Tamamen ücretsiz, hızlı ve programsız video indirme aracı.">
+    <meta name="description" content="TikStory ile TikTok hikayelerini anonim şekilde indirin, TikTok hikayelerini filigransız olarak indirin. Tamamen ücretsiz, hızlı ve programsız video indirme aracı.">
     
-    </head>     
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KKNLJWE0YF"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-KKNLJWE0YF');
-</script>     
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikStory | TikTok Hikaye İndirici</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -36,62 +34,140 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col">
 
-    <header class="w-full py-6 text-center border-b border-zinc-900">
-        <h1 class="text-3xl font-bold tracking-tight">Tik<span class="text-rose-500">Story</span></h1>
+    <!-- Üst Kısım (Header): Mail, Logo ve Dil Seçeneği -->
+    <header class="w-full py-4 border-b border-zinc-900 relative flex flex-col md:flex-row items-center justify-between px-6 bg-zinc-950/80">
+        
+        <!-- Sol Üst: Destek Maili -->
+        <a href="mailto:ozbekeray02@gmail.com" class="text-zinc-400 hover:text-rose-500 text-sm transition-colors md:absolute left-6 mb-3 md:mb-0">
+            ✉ ozbekeray02@gmail.com
+        </a>
+
+        <!-- Orta: Logo -->
+        <h1 class="text-3xl font-bold tracking-tight mx-auto">Tik<span class="text-rose-500">Story</span></h1>
+
+        <!-- Sağ Üst: Dil Seçeneği -->
+        <div class="md:absolute right-6 mt-3 md:mt-0">
+            <select id="langSelect" onchange="changeLanguage()" class="bg-zinc-900 text-zinc-100 border border-zinc-700 text-sm rounded-lg focus:ring-rose-500 focus:border-rose-500 p-2 cursor-pointer outline-none">
+                <option value="tr">🇹🇷 TR</option>
+                <option value="en">🇬🇧 EN</option>
+            </select>
+        </div>
     </header>
 
+    <!-- Ana İçerik -->
     <div class="flex-grow flex justify-center w-full max-w-7xl mx-auto px-4 py-8 gap-6">
 
-        <div class="hidden lg:block w-64">
-            </div>
+        <!-- Sol Boşluk (Reklam Alanı için) -->
+        <div class="hidden lg:block w-64"></div>
 
-        <div class="flex-1 max-w-2xl flex flex-col items-center">
+        <!-- Orta Alan (Daraltıldı: max-w-2xl yerine max-w-lg kullanıldı) -->
+        <div class="flex-1 max-w-lg flex flex-col items-center">
             
-            <h2 class="text-2xl font-semibold mb-2 text-center">TikTok Hikayelerini İndir</h2>
-            <p class="text-zinc-400 mb-8 text-center text-sm">Kullanıcı adını yazın, anonim olarak izleyin ve yüksek kalitede cihazınıza kaydedin.</p>
+            <h2 class="text-2xl font-semibold mb-2 text-center" data-translate="title">TikTok Hikayelerini İndir</h2>
+            <p class="text-zinc-400 mb-8 text-center text-sm" data-translate="desc">Kullanıcı adını yazın, anonim olarak izleyin ve yüksek kalitede cihazınıza kaydedin.</p>
 
             <div class="w-full relative mb-4 shadow-xl">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-zinc-500 text-lg font-medium">@</span>
-                <input type="text" id="usernameInput" placeholder="kullaniciadi" class="w-full bg-zinc-900 border border-zinc-700 text-white rounded-xl py-4 pl-10 pr-4 focus:outline-none focus:border-rose-500 transition-colors placeholder-zinc-600 text-lg">
+                <input type="text" id="usernameInput" placeholder="kullaniciadi" class="w-full bg-zinc-900 border border-zinc-700 text-white rounded-xl py-4 pl-10 pr-4 focus:outline-none focus:border-rose-500 transition-colors placeholder-zinc-600 text-lg text-center">
             </div>
             
-            <button onclick="hikayeAra()" class="w-full bg-zinc-100 hover:bg-white text-black font-semibold py-4 rounded-xl transition-colors shadow-lg mb-10 text-lg">
+            <button onclick="hikayeAra()" id="searchBtn" class="w-full bg-zinc-100 hover:bg-white text-black font-semibold py-4 rounded-xl transition-colors shadow-lg mb-10 text-lg" data-translate="btn">
                 Hikayeleri Bul
             </button>
 
             <div id="loader" class="hidden flex-col items-center mb-10">
                 <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-rose-500 mb-2"></div>
-                <p class="text-zinc-400 text-sm">Sunuculara bağlanılıyor...</p>
+                <p class="text-zinc-400 text-sm" data-translate="loading">Sunuculara bağlanılıyor...</p>
             </div>
 
             <div id="results" class="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12"></div>
 
-            <div class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-8 mt-auto">
-                <h3 class="text-xl font-semibold mb-6">Nasıl Kullanılır?</h3>
+            <div class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-8 mt-auto shadow-2xl">
+                <h3 class="text-xl font-semibold mb-6" data-translate="howTo">Nasıl Kullanılır?</h3>
                 <div class="space-y-5 text-zinc-300 text-sm">
                     <div class="flex gap-4 items-start">
                         <div class="flex-shrink-0 w-8 h-8 rounded-full bg-zinc-950 border border-zinc-700 flex items-center justify-center font-bold text-rose-500">1</div>
-                        <p class="mt-1">Arama çubuğuna hikayesini izlemek veya indirmek istediğiniz kişinin kullanıcı adını yazın.</p>
+                        <p class="mt-1" data-translate="step1">Arama çubuğuna hikayesini izlemek veya indirmek istediğiniz kişinin kullanıcı adını yazın.</p>
                     </div>
                     <div class="flex gap-4 items-start">
                         <div class="flex-shrink-0 w-8 h-8 rounded-full bg-zinc-950 border border-zinc-700 flex items-center justify-center font-bold text-rose-500">2</div>
-                        <p class="mt-1">"Hikayeleri Bul" butonuna tıklayın. Hesap herkese açıksa hikayeler saniyeler içinde listelenir.</p>
+                        <p class="mt-1" data-translate="step2">"Hikayeleri Bul" butonuna tıklayın. Hesap herkese açıksa hikayeler saniyeler içinde listelenir.</p>
                     </div>
                     <div class="flex gap-4 items-start">
                         <div class="flex-shrink-0 w-8 h-8 rounded-full bg-zinc-950 border border-zinc-700 flex items-center justify-center font-bold text-rose-500">3</div>
-                        <p class="mt-1">Gelen hikayelerin altındaki <span class="text-white font-semibold">"İndir (HD)"</span> butonuna tıklayarak medyayı cihazınıza kaydedin.</p>
+                        <p class="mt-1" data-translate="step3">Gelen hikayelerin altındaki <span class="text-white font-semibold">"İndir (HD)"</span> butonuna tıklayarak medyayı cihazınıza kaydedin.</p>
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <div class="hidden lg:block w-64">
-             </div>
-
+        <!-- Sağ Boşluk (Reklam Alanı için) -->
+        <div class="hidden lg:block w-64"></div>
     </div>
 
+    <!-- En Alt Kısım: Yapay Zeka Notu -->
+    <footer class="w-full py-6 flex justify-center mt-auto border-t border-zinc-900/50">
+        <div class="bg-zinc-900/50 border border-zinc-800/50 rounded-lg px-6 py-2 text-xs text-zinc-500 text-center tracking-wide" data-translate="aiText">
+            Bu site bir yapay zeka modelidir. ✦ Designed by Gemini
+        </div>
+    </footer>
+
     <script>
+        // --- DİL VE ÇEVİRİ SİSTEMİ ---
+        const translations = {
+            tr: {
+                title: "TikTok Hikayelerini İndir",
+                desc: "Kullanıcı adını yazın, anonim olarak izleyin ve yüksek kalitede cihazınıza kaydedin.",
+                placeholder: "kullaniciadi",
+                btn: "Hikayeleri Bul",
+                loading: "Sunuculara bağlanılıyor...",
+                howTo: "Nasıl Kullanılır?",
+                step1: "Arama çubuğuna hikayesini izlemek veya indirmek istediğiniz kişinin kullanıcı adını yazın.",
+                step2: "\"Hikayeleri Bul\" butonuna tıklayın. Hesap herkese açıksa hikayeler saniyeler içinde listelenir.",
+                step3: "Gelen hikayelerin altındaki <span class='text-white font-semibold'>\"İndir (HD)\"</span> butonuna tıklayarak medyayı cihazınıza kaydedin.",
+                aiText: "Bu site bir yapay zeka modelidir. ✦ Designed by Gemini",
+                errNoStory: "Bu kullanıcının son 24 saatte paylaştığı aktif bir hikayesi bulunmuyor.",
+                errHidden: "Hesap gizli olabilir veya sunucu yanıt vermiyor.",
+                downloadBtn: "⬇ İndir (HD)"
+            },
+            en: {
+                title: "Download TikTok Stories",
+                desc: "Enter the username, watch anonymously, and save to your device in high quality.",
+                placeholder: "username",
+                btn: "Find Stories",
+                loading: "Connecting to servers...",
+                howTo: "How to Use?",
+                step1: "Type the username of the person whose story you want to view or download into the search bar.",
+                step2: "Click the \"Find Stories\" button. If the account is public, stories will be listed in seconds.",
+                step3: "Click the <span class='text-white font-semibold'>\"Download (HD)\"</span> button below the stories to save the media to your device.",
+                aiText: "This site is an AI model. ✦ Designed by Gemini",
+                errNoStory: "This user has no active stories shared in the last 24 hours.",
+                errHidden: "The account might be private or the server is not responding.",
+                downloadBtn: "⬇ Download (HD)"
+            }
+        };
+
+        let currentLang = 'tr';
+
+        function changeLanguage() {
+            currentLang = document.getElementById('langSelect').value;
+            
+            // Sabit metinleri çevir
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLang][key]) {
+                    element.innerHTML = translations[currentLang][key]; // HTML tagları (span vs) bozulmasın diye innerHTML
+                }
+            });
+
+            // Input yer tutucusunu (placeholder) çevir
+            document.getElementById('usernameInput').placeholder = translations[currentLang].placeholder;
+            
+            // Eğer ekranda daha önceden aratılmış bir hata mesajı varsa onu da çevirmek için butona tekrar basmış gibi tetikleyebiliriz
+            // (Şimdilik sadece statik alanları çeviriyoruz, dinamik alanlar arama yapıldıkça güncel dilde gelecek).
+        }
+
+        // --- SENİN ÇALIŞAN HİKAYE ARAMA KODUN (HİÇ DOKUNULMADI, SADECE ÇEVİRİ EKLENDİ) ---
         async function hikayeAra() {
             const input = document.getElementById('usernameInput').value;
             const loader = document.getElementById('loader');
@@ -112,7 +188,7 @@
                 
                 // 1. KONTROL: Eğer kullanıcının hiç hikayesi yoksa
                 if (!data.hikayeler || !data.hikayeler.data || !data.hikayeler.data.videos || data.hikayeler.data.videos.length === 0) {
-                    results.innerHTML = '<p class="text-zinc-400 w-full text-center col-span-1 sm:col-span-2 py-6 border border-zinc-800 rounded-xl bg-zinc-900/50">Bu kullanıcının son 24 saatte paylaştığı aktif bir hikayesi bulunmuyor.</p>';
+                    results.innerHTML = `<p class="text-zinc-400 w-full text-center col-span-1 sm:col-span-2 py-6 border border-zinc-800 rounded-xl bg-zinc-900/50">${translations[currentLang].errNoStory}</p>`;
                     return;
                 }
 
@@ -147,7 +223,7 @@
                                 </div>
                                 <div class="p-4 flex flex-col items-center bg-zinc-900 border-t border-zinc-800">
                                     <a href="${indirLink}" target="_blank" rel="noopener noreferrer" download class="w-full text-center bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 rounded-lg transition-colors shadow-lg shadow-rose-600/20">
-                                        ⬇ İndir (HD)
+                                        ${translations[currentLang].downloadBtn}
                                     </a>
                                 </div>
                             </div>
@@ -160,7 +236,7 @@
 
             } catch (error) {
                 // Herhangi bir çökme durumunda uyarı ver
-                results.innerHTML = '<p class="text-rose-500 w-full text-center col-span-1 sm:col-span-2 py-4 bg-rose-500/10 rounded-lg border border-rose-500/20">Hesap gizli olabilir veya sunucu yanıt vermiyor.</p>';
+                results.innerHTML = `<p class="text-rose-500 w-full text-center col-span-1 sm:col-span-2 py-4 bg-rose-500/10 rounded-lg border border-rose-500/20">${translations[currentLang].errHidden}</p>`;
             } finally {
                 // İşlem bitince yükleme animasyonunu kapat
                 loader.classList.add('hidden');
