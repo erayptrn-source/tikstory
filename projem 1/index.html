@@ -4,45 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Google AdSense Kodu -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4046540968433988" crossorigin="anonymous"></script>
     
-    <!-- Favicon (Daha önce oluşturduğumuz SVG logomuz) -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
-    <!-- Google ve Arama Motoru (SEO) Ayarları -->
     <title>TikStory | TikTok Video İndirici ve Anonim Hikaye Görüntüleme</title>
     <meta name="description" content="TikStory ile TikTok videolarını filigransız indirin, TikTok hikayelerini anonim olarak görüntüleyin. Tamamen ücretsiz, hızlı ve programsız video indirme aracı.">
     
-    <!-- Tailwind CSS (Tasarım için) -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-black text-white min-h-screen flex flex-col font-sans">
 
-    <!-- Navbar / Üst Kısım -->
-    <header class="w-full py-5 bg-gray-900 border-b border-gray-800 text-center shadow-md">
+    <header class="w-full py-4 bg-gray-900 border-b border-gray-800 shadow-md relative flex items-center justify-center">
         <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-white tracking-wide">
             TikStory
         </h1>
+        
+        <div class="absolute right-4">
+            <select id="langSelect" onchange="changeLanguage()" class="bg-gray-800 text-white border border-gray-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-2 cursor-pointer outline-none transition-colors">
+                <option value="tr">🇹🇷 TR</option>
+                <option value="en">🇬🇧 EN</option>
+            </select>
+        </div>
     </header>
 
-    <!-- Ana İçerik Konteyneri (Yanlar Genişletildi, Orta Daraltıldı) -->
     <div class="flex-grow flex justify-between items-start w-full max-w-7xl mx-auto px-4 mt-12 gap-8">
         
-        <!-- Sol Genişletilmiş Reklam Alanı -->
-        <div class="hidden lg:flex w-80 bg-gray-900/30 min-h-[600px] border border-gray-800 rounded-xl items-center justify-center text-gray-700">
-            <!-- İleride AdSense otomatik olarak burayı dolduracak -->
-            <span class="text-xs tracking-widest uppercase">Reklam Alanı</span>
-        </div>
+        <div class="hidden lg:flex w-80 min-h-[600px]">
+            </div>
 
-        <!-- Ortalanmış ve Daraltılmış Arama Çubuğu Alanı -->
         <main class="w-full max-w-md mx-auto bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-800 text-center">
-            <h2 class="text-2xl font-bold mb-2">Video veya Hikaye İndir</h2>
-            <p class="text-gray-400 text-sm mb-8">TikTok bağlantısını aşağıya yapıştırın</p>
+            <h2 class="text-2xl font-bold mb-2" data-translate="subtitle">Video veya Hikaye İndir</h2>
+            <p class="text-gray-400 text-sm mb-8" data-translate="placeholderText">TikTok bağlantısını veya kullanıcı adını aşağıya yazın</p>
             
-            <!-- Arama Formu -->
             <div class="flex flex-col gap-4">
-                <input type="text" id="tiktokUrl" placeholder="https://www.tiktok.com/@kullanici/video/..." 
+                <input type="text" id="tiktokUrl" placeholder="Link veya kullanıcı adı (@isim)..." 
                     class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 text-white placeholder-gray-500 transition-all text-center">
                 
                 <button onclick="downloadVideo()" id="downloadBtn" 
@@ -50,41 +46,33 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <span>Ara ve İndir</span>
+                    <span data-translate="buttonText">Ara ve İndir</span>
                 </button>
             </div>
 
-            <!-- Yükleme Animasyonu (Başlangıçta Gizli) -->
             <div id="loading" class="hidden mt-8">
                 <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-red-500 mx-auto"></div>
-                <p class="text-gray-400 text-sm mt-4 animate-pulse">Bağlantı işleniyor, lütfen bekleyin...</p>
+                <p class="text-gray-400 text-sm mt-4 animate-pulse" data-translate="loadingText">Bağlantı işleniyor, lütfen bekleyin...</p>
             </div>
 
-            <!-- Sonuç Alanı (Başlangıçta Gizli, İçerik Tamamen Ortalanmış) -->
             <div id="result" class="hidden mt-8 p-6 bg-gray-800 rounded-xl border border-gray-700 flex flex-col items-center justify-center text-center">
-                <!-- Sonuçlar JS ile buraya gelecek -->
-            </div>
+                </div>
         </main>
 
-        <!-- Sağ Genişletilmiş Reklam Alanı -->
-        <div class="hidden lg:flex w-80 bg-gray-900/30 min-h-[600px] border border-gray-800 rounded-xl items-center justify-center text-gray-700">
-            <!-- İleride AdSense otomatik olarak burayı dolduracak -->
-            <span class="text-xs tracking-widest uppercase">Reklam Alanı</span>
-        </div>
+        <div class="hidden lg:flex w-80 min-h-[600px]">
+            </div>
 
     </div>
 
-    <!-- Footer / Destek Bölümü -->
     <footer class="mt-20 border-t border-gray-800 bg-black/80 py-12">
         <div class="max-w-4xl mx-auto px-4 text-center">
-            <h3 class="text-2xl font-bold text-white mb-4">Neden TikStory?</h3>
-            <p class="text-gray-400 text-sm mb-10 max-w-2xl mx-auto leading-relaxed">
+            <h3 class="text-2xl font-bold text-white mb-4" data-translate="whyTitle">Neden TikStory?</h3>
+            <p class="text-gray-400 text-sm mb-10 max-w-2xl mx-auto leading-relaxed" data-translate="whyText">
                 TikStory, favori içeriklerinizi filigransız, yüksek kalitede ve saniyeler içinde cihazınıza kaydetmenizi sağlar. Anonim hikaye görüntüleme özelliğiyle gizliliğinizi korurken, tamamen ücretsiz ve programsız bir deneyim sunar.
             </p>
             
-            <!-- Bize Ulaşın Butonu (Doğrudan Mail Uygulamasını Açar) -->
             <div class="inline-block bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl">
-                <span class="text-gray-400 text-sm block mb-3 font-medium">Destek, Hata Bildirimi ve Önerileriniz İçin:</span>
+                <span class="text-gray-400 text-sm block mb-3 font-medium" data-translate="supportText">Destek, Hata Bildirimi ve Önerileriniz İçin:</span>
                 <a href="mailto:ozbekeray02@gmail.com" class="text-red-500 hover:text-red-400 font-bold text-xl flex items-center justify-center gap-3 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -95,16 +83,66 @@
         </div>
     </footer>
 
-    <!-- Javascript Fonksiyonları -->
     <script>
+        // Çeviri Sözlüğü
+        const translations = {
+            tr: {
+                subtitle: "Video veya Hikaye İndir",
+                placeholderText: "TikTok bağlantısını veya kullanıcı adını aşağıya yazın",
+                inputPlaceholder: "Link veya kullanıcı adı (@isim)...",
+                buttonText: "Ara ve İndir",
+                loadingText: "İşleniyor, lütfen bekleyin...",
+                whyTitle: "Neden TikStory?",
+                whyText: "TikStory, favori içeriklerinizi filigransız, yüksek kalitede ve saniyeler içinde cihazınıza kaydetmenizi sağlar. Anonim hikaye görüntüleme özelliğiyle gizliliğinizi korurken, tamamen ücretsiz ve programsız bir deneyim sunar.",
+                supportText: "Destek, Hata Bildirimi ve Önerileriniz İçin:",
+                errorEmpty: "Lütfen bir bağlantı veya kullanıcı adı girin!",
+                errorOccurred: "Hata oluştu:",
+                autoDownload: "Otomatik İndir"
+            },
+            en: {
+                subtitle: "Download Video or Story",
+                placeholderText: "Paste the TikTok link or username below",
+                inputPlaceholder: "Link or username (@name)...",
+                buttonText: "Search & Download",
+                loadingText: "Processing, please wait...",
+                whyTitle: "Why TikStory?",
+                whyText: "TikStory allows you to save your favorite content to your device in high quality and without watermarks in seconds. It offers a completely free and software-free experience while protecting your privacy with its anonymous story viewing feature.",
+                supportText: "For Support, Bug Reports and Suggestions:",
+                errorEmpty: "Please enter a link or username!",
+                errorOccurred: "Error occurred:",
+                autoDownload: "Auto Download"
+            }
+        };
+
+        // Mevcut seçili dil
+        let currentLang = 'tr';
+
+        // Dili Değiştirme Fonksiyonu
+        function changeLanguage() {
+            currentLang = document.getElementById('langSelect').value;
+            
+            // Veri etiketli tüm metinleri çevir
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLang][key]) {
+                    element.innerText = translations[currentLang][key];
+                }
+            });
+
+            // Input placeholder'ı çevir
+            document.getElementById('tiktokUrl').placeholder = translations[currentLang].inputPlaceholder;
+        }
+
+        // İndirme Fonksiyonu
         async function downloadVideo() {
-            const urlInput = document.getElementById('tiktokUrl').value;
+            const urlInput = document.getElementById('tiktokUrl').value.trim();
             const resultDiv = document.getElementById('result');
             const loadingDiv = document.getElementById('loading');
             const btn = document.getElementById('downloadBtn');
 
+            // Sadece boş mu diye kontrol ediyoruz, link kontrolü (includes tiktok) tamamen kaldırıldı.
             if (!urlInput) {
-                alert("Lütfen bir TikTok bağlantısı yapıştırın!");
+                alert(translations[currentLang].errorEmpty);
                 return;
             }
 
@@ -115,27 +153,26 @@
             btn.classList.add('opacity-50', 'cursor-not-allowed');
 
             try {
-                // API İsteği (Backend kısmınla haberleşir)
+                // API İsteği
                 const response = await fetch(`/api/download?url=${encodeURIComponent(urlInput)}`);
                 const data = await response.json();
 
                 if (response.ok && data.video_url) {
-                    // İçerik tamamen ortalandı ve indirme butonu "download" etiketiyle otomatik indirmeye ayarlandı
                     resultDiv.innerHTML = `
-                        <img src="${data.thumbnail_url || 'https://via.placeholder.com/150'}" alt="Kapak Resmi" class="w-32 h-32 object-cover rounded-xl mb-4 shadow-lg border border-gray-600">
-                        <h4 class="text-white font-medium mb-5 text-sm break-words line-clamp-2 w-full px-2">${data.title || 'İndirilen TikTok İçeriği'}</h4>
+                        <img src="${data.thumbnail_url || 'https://via.placeholder.com/150'}" alt="Thumbnail" class="w-32 h-32 object-cover rounded-xl mb-4 shadow-lg border border-gray-600">
+                        <h4 class="text-white font-medium mb-5 text-sm break-words line-clamp-2 w-full px-2">${data.title || 'TikTok Content'}</h4>
                         
                         <a href="${data.video_url}" target="_blank" download="TikStory_Video.mp4" 
                            class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-600/20">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
-                            Otomatik İndir
+                            ${translations[currentLang].autoDownload}
                         </a>
                     `;
                     resultDiv.classList.remove('hidden');
                 } else {
-                    throw new Error(data.error || "Video bulunamadı. Bağlantıyı kontrol edin.");
+                    throw new Error(data.error || "Video not found.");
                 }
             } catch (error) {
                 resultDiv.innerHTML = `
@@ -143,13 +180,13 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <p>Hata oluştu:</p>
+                        <p>${translations[currentLang].errorOccurred}</p>
                         <p class="text-sm font-normal mt-1">${error.message}</p>
                     </div>
                 `;
                 resultDiv.classList.remove('hidden');
             } finally {
-                // Yükleme ekranını kapat ve butonu eski haline getir
+                // Yükleme ekranını kapat
                 loadingDiv.classList.add('hidden');
                 btn.disabled = false;
                 btn.classList.remove('opacity-50', 'cursor-not-allowed');
