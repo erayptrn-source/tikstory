@@ -8,8 +8,8 @@
     
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
-    <title>TikStory | TikTok Video İndirici ve Anonim Hikaye Görüntüleme</title>
-    <meta name="description" content="TikStory ile TikTok videolarını filigransız indirin, TikTok hikayelerini anonim olarak görüntüleyin. Tamamen ücretsiz, hızlı ve programsız video indirme aracı.">
+    <title>TikStory | Anonim TikTok Hikaye Görüntüleme ve İndirme</title>
+    <meta name="description" content="TikStory ile TikTok hikayelerini anonim olarak görüntüleyin ve filigransız indirin. Tamamen ücretsiz, hızlı ve programsız gizli hikaye izleme aracı.">
     
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -34,25 +34,26 @@
             </div>
 
         <main class="w-full max-w-md mx-auto bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-800 text-center">
-            <h2 class="text-2xl font-bold mb-2" data-translate="subtitle">Video veya Hikaye İndir</h2>
-            <p class="text-gray-400 text-sm mb-8" data-translate="placeholderText">TikTok bağlantısını veya kullanıcı adını aşağıya yazın</p>
+            <h2 class="text-2xl font-bold mb-2" data-translate="subtitle">Anonim Hikaye Görüntüle ve İndir</h2>
+            <p class="text-gray-400 text-sm mb-8" data-translate="placeholderText">TikTok kullanıcı adını veya hikaye bağlantısını aşağıya yazın</p>
             
             <div class="flex flex-col gap-4">
-                <input type="text" id="tiktokUrl" placeholder="Link veya kullanıcı adı (@isim)..." 
+                <input type="text" id="tiktokUrl" placeholder="Kullanıcı adı (@isim) veya bağlantı..." 
                     class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 text-white placeholder-gray-500 transition-all text-center">
                 
                 <button onclick="downloadVideo()" id="downloadBtn" 
                     class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-red-600/20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
-                    <span data-translate="buttonText">Ara ve İndir</span>
+                    <span data-translate="buttonText">Arama Yap</span>
                 </button>
             </div>
 
             <div id="loading" class="hidden mt-8">
                 <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-red-500 mx-auto"></div>
-                <p class="text-gray-400 text-sm mt-4 animate-pulse" data-translate="loadingText">Bağlantı işleniyor, lütfen bekleyin...</p>
+                <p class="text-gray-400 text-sm mt-4 animate-pulse" data-translate="loadingText">Hikayeler taranıyor, lütfen bekleyin...</p>
             </div>
 
             <div id="result" class="hidden mt-8 p-6 bg-gray-800 rounded-xl border border-gray-700 flex flex-col items-center justify-center text-center">
@@ -68,7 +69,7 @@
         <div class="max-w-4xl mx-auto px-4 text-center">
             <h3 class="text-2xl font-bold text-white mb-4" data-translate="whyTitle">Neden TikStory?</h3>
             <p class="text-gray-400 text-sm mb-10 max-w-2xl mx-auto leading-relaxed" data-translate="whyText">
-                TikStory, favori içeriklerinizi filigransız, yüksek kalitede ve saniyeler içinde cihazınıza kaydetmenizi sağlar. Anonim hikaye görüntüleme özelliğiyle gizliliğinizi korurken, tamamen ücretsiz ve programsız bir deneyim sunar.
+                TikStory, TikTok hikayelerini karşı tarafa hiçbir bildirim gitmeden, tamamen anonim ve gizli bir şekilde görüntülemenizi sağlar. Beğendiğiniz hikaye içeriklerini yüksek kalitede saniyeler içinde cihazınıza indirebilirsiniz. Sınır yok, ücret yok, kayıt yok!
             </p>
             
             <div class="inline-block bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl">
@@ -87,41 +88,40 @@
         // Çeviri Sözlüğü
         const translations = {
             tr: {
-                subtitle: "Video veya Hikaye İndir",
-                placeholderText: "TikTok bağlantısını veya kullanıcı adını aşağıya yazın",
-                inputPlaceholder: "Link veya kullanıcı adı (@isim)...",
-                buttonText: "Ara ve İndir",
-                loadingText: "İşleniyor, lütfen bekleyin...",
+                subtitle: "Anonim Hikaye Görüntüle ve İndir",
+                placeholderText: "TikTok kullanıcı adını veya hikaye bağlantısını aşağıya yazın",
+                inputPlaceholder: "Kullanıcı adı (@isim) veya bağlantı...",
+                buttonText: "Arama Yap",
+                loadingText: "Hikayeler taranıyor, lütfen bekleyin...",
                 whyTitle: "Neden TikStory?",
-                whyText: "TikStory, favori içeriklerinizi filigransız, yüksek kalitede ve saniyeler içinde cihazınıza kaydetmenizi sağlar. Anonim hikaye görüntüleme özelliğiyle gizliliğinizi korurken, tamamen ücretsiz ve programsız bir deneyim sunar.",
+                whyText: "TikStory, TikTok hikayelerini karşı tarafa hiçbir bildirim gitmeden, tamamen anonim ve gizli bir şekilde görüntülemenizi sağlar. Beğendiğiniz hikaye içeriklerini yüksek kalitede saniyeler içinde cihazınıza indirebilirsiniz. Sınır yok, ücret yok, kayıt yok!",
                 supportText: "Destek, Hata Bildirimi ve Önerileriniz İçin:",
-                errorEmpty: "Lütfen bir bağlantı veya kullanıcı adı girin!",
+                errorEmpty: "Lütfen bir kullanıcı adı veya hikaye bağlantısı girin!",
                 errorOccurred: "Hata oluştu:",
-                autoDownload: "Otomatik İndir"
+                errorNotFound: "Aktif hikaye bulunamadı veya hesap gizli. Lütfen ismi kontrol edin.",
+                autoDownload: "Hikayeyi İndir"
             },
             en: {
-                subtitle: "Download Video or Story",
-                placeholderText: "Paste the TikTok link or username below",
-                inputPlaceholder: "Link or username (@name)...",
-                buttonText: "Search & Download",
-                loadingText: "Processing, please wait...",
+                subtitle: "View & Download Stories Anonymously",
+                placeholderText: "Enter TikTok username or story link below",
+                inputPlaceholder: "Username (@name) or link...",
+                buttonText: "Search Story",
+                loadingText: "Scanning stories, please wait...",
                 whyTitle: "Why TikStory?",
-                whyText: "TikStory allows you to save your favorite content to your device in high quality and without watermarks in seconds. It offers a completely free and software-free experience while protecting your privacy with its anonymous story viewing feature.",
+                whyText: "TikStory allows you to view TikTok stories completely anonymously and secretly without leaving any footprint. You can download your favorite story contents to your device in high quality within seconds. No limits, no fees, no registration!",
                 supportText: "For Support, Bug Reports and Suggestions:",
-                errorEmpty: "Please enter a link or username!",
+                errorEmpty: "Please enter a username or story link!",
                 errorOccurred: "Error occurred:",
-                autoDownload: "Auto Download"
+                errorNotFound: "No active stories found or account is private. Please check the name.",
+                autoDownload: "Download Story"
             }
         };
 
-        // Mevcut seçili dil
         let currentLang = 'tr';
 
-        // Dili Değiştirme Fonksiyonu
         function changeLanguage() {
             currentLang = document.getElementById('langSelect').value;
             
-            // Veri etiketli tüm metinleri çevir
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 if (translations[currentLang][key]) {
@@ -129,40 +129,38 @@
                 }
             });
 
-            // Input placeholder'ı çevir
             document.getElementById('tiktokUrl').placeholder = translations[currentLang].inputPlaceholder;
         }
 
-        // İndirme Fonksiyonu
         async function downloadVideo() {
             const urlInput = document.getElementById('tiktokUrl').value.trim();
             const resultDiv = document.getElementById('result');
             const loadingDiv = document.getElementById('loading');
             const btn = document.getElementById('downloadBtn');
 
-            // Sadece boş mu diye kontrol ediyoruz, link kontrolü (includes tiktok) tamamen kaldırıldı.
             if (!urlInput) {
                 alert(translations[currentLang].errorEmpty);
                 return;
             }
 
-            // Yükleme ekranını aç
             loadingDiv.classList.remove('hidden');
             resultDiv.classList.add('hidden');
             btn.disabled = true;
             btn.classList.add('opacity-50', 'cursor-not-allowed');
 
             try {
-                // API İsteği
                 const response = await fetch(`/api/download?url=${encodeURIComponent(urlInput)}`);
                 const data = await response.json();
 
-                if (response.ok && data.video_url) {
+                // Esnek anahtar kontrolü: API'den hangi link gelirse gelsin yakalar
+                const targetUrl = data.video_url || data.story_url || data.download_url || data.url;
+
+                if (response.ok && targetUrl) {
                     resultDiv.innerHTML = `
-                        <img src="${data.thumbnail_url || 'https://via.placeholder.com/150'}" alt="Thumbnail" class="w-32 h-32 object-cover rounded-xl mb-4 shadow-lg border border-gray-600">
-                        <h4 class="text-white font-medium mb-5 text-sm break-words line-clamp-2 w-full px-2">${data.title || 'TikTok Content'}</h4>
+                        <img src="${data.thumbnail_url || 'https://via.placeholder.com/150'}" alt="Story Preview" class="w-32 h-32 object-cover rounded-xl mb-4 shadow-lg border border-gray-600">
+                        <h4 class="text-white font-medium mb-5 text-sm break-words line-clamp-2 w-full px-2">${data.title || 'TikTok Story'}</h4>
                         
-                        <a href="${data.video_url}" target="_blank" download="TikStory_Video.mp4" 
+                        <a href="${targetUrl}" target="_blank" download="TikStory.mp4" 
                            class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-600/20">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -172,7 +170,7 @@
                     `;
                     resultDiv.classList.remove('hidden');
                 } else {
-                    throw new Error(data.error || "Video not found.");
+                    throw new Error(data.error || translations[currentLang].errorNotFound);
                 }
             } catch (error) {
                 resultDiv.innerHTML = `
@@ -186,7 +184,6 @@
                 `;
                 resultDiv.classList.remove('hidden');
             } finally {
-                // Yükleme ekranını kapat
                 loadingDiv.classList.add('hidden');
                 btn.disabled = false;
                 btn.classList.remove('opacity-50', 'cursor-not-allowed');
