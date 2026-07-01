@@ -215,25 +215,30 @@
                         results.innerHTML = htmlIcerik;
                     }
                 } 
-                // 2. VİDEO İNDİRİCİ ARACI
+                    // 2. VİDEO İNDİRİCİ ARACI (Güncellenmiş)
                 else if (aktifArac === 'video') {
                     const res = await fetch('/api/video/?url=' + encodeURIComponent(input));
                     const data = await res.json();
                     
+                    // tiktok-api23'ün dönen veri yapısı genelde 'data' içindedir
                     const vData = data.data || data;
-                    const videoUrl = vData.play || vData.video || vData.download_url || vData.wmplay || (vData.video_data && vData.video_data.nwm_video_url);
-                    const coverUrl = vData.cover || vData.origin_cover || 'https://via.placeholder.com/300x400?text=Video';
                     
-                    if (!videoUrl) throw new Error("Video linki yakalanamadı.");
+                    // API'den gelen doğru video linkini yakalıyoruz
+                    const videoUrl = vData.play || vData.video || vData.download_url || vData.wmplay;
+                    const coverUrl = vData.cover || 'https://via.placeholder.com/300x400?text=Video';
+                    
+                    if (!videoUrl) throw new Error("Video linki yakalanamadı. Lütfen linki kontrol edin.");
 
                     results.innerHTML = `
                         <div class="col-span-1 sm:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col md:flex-row shadow-2xl items-center p-6 gap-8">
                             <img src="${coverUrl}" class="w-full md:w-1/3 rounded-xl object-cover shadow-lg max-h-64">
                             <div class="flex flex-col w-full md:w-2/3 text-center md:text-left">
-                                <h3 class="text-white font-semibold text-lg mb-4 leading-relaxed">${vData.title || vData.desc || 'TikTok Videosu Hazır!'}</h3>
-                                <a href="${videoUrl}" target="_blank" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-6 rounded-lg shadow-lg text-lg transition-colors">
-                                    ⬇ Filigransız Olarak İndir
+                                <h3 class="text-white font-semibold text-lg mb-4 leading-relaxed">${vData.title || 'TikTok Videosu'}</h3>
+                                <!-- İNDİRME BUTONU -->
+                                <a href="${videoUrl}" target="_blank" rel="noopener" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-6 rounded-lg shadow-lg text-lg transition-all active:scale-95 text-center">
+                                    ⬇ Filigransız İndir
                                 </a>
+                                <p class="text-zinc-500 text-xs mt-3">Not: Video yeni sekmede açılırsa, videonun üzerine sağ tıklayıp "Video olarak kaydet" diyebilirsiniz.</p>
                             </div>
                         </div>
                     `;
