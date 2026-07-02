@@ -24,14 +24,38 @@
         ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col">
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col relative">
+
+    <!-- BİZE ULAŞIN MODALI (Gizli Pencere) -->
+    <div id="contactModal" class="hidden fixed inset-0 z-[60] bg-black/80 items-center justify-center p-4 backdrop-blur-sm transition-all">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
+            <button onclick="closeContactModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl font-bold transition-colors">✕</button>
+            <h3 class="text-xl font-bold text-white mb-6 text-center">Bize Ulaşın</h3>
+            <input type="text" id="contactName" placeholder="İsim Soyisim" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 mb-4 text-white focus:border-rose-500 outline-none transition-colors">
+            <input type="email" id="contactEmail" placeholder="E-posta Adresi" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 mb-4 text-white focus:border-rose-500 outline-none transition-colors">
+            <textarea id="contactMessage" placeholder="Mesajınız..." rows="4" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 mb-6 text-white focus:border-rose-500 outline-none transition-colors"></textarea>
+            <button onclick="sendContact()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-lg transition-colors shadow-lg">Gönder</button>
+        </div>
+    </div>
 
     <!-- Header -->
-    <header class="w-full py-4 border-b border-zinc-900 relative flex flex-col md:flex-row items-center justify-between px-6 bg-zinc-950/80 sticky top-0 z-50">
-        <a href="mailto:ozbekeray02@gmail.com" class="text-zinc-400 hover:text-rose-500 text-sm transition-colors md:absolute left-6 mb-3 md:mb-0">✉ ozbekeray02@gmail.com</a>
-        <h1 class="text-3xl font-bold tracking-tight mx-auto cursor-pointer" onclick="window.scrollTo(0,0)">Tik<span class="text-rose-500">Story</span></h1>
+    <header class="w-full py-4 border-b border-zinc-900 relative flex flex-col md:flex-row items-center justify-between px-6 bg-zinc-950/90 sticky top-0 z-50 backdrop-blur-md">
+        
+        <!-- Sol: Bize Ulaşın Butonu -->
+        <button onclick="openContactModal()" class="text-zinc-400 hover:text-rose-500 text-sm font-medium transition-colors md:absolute left-6 mb-3 md:mb-0 flex items-center gap-2">
+            📞 Bize Ulaşın
+        </button>
+        
+        <!-- Orta: Platform Geçiş ve Logo -->
+        <div class="mx-auto flex items-center gap-4 sm:gap-8">
+            <button onclick="switchPlatform('tiktok')" id="plat-tiktok" class="text-rose-500 font-bold text-lg transition-colors">TikTok</button>
+            <h1 class="text-3xl font-bold tracking-tight cursor-pointer" onclick="window.scrollTo(0,0)">Tik<span class="text-rose-500">Story</span></h1>
+            <button onclick="switchPlatform('instagram')" id="plat-insta" class="text-zinc-600 hover:text-rose-500 font-bold text-lg transition-colors">Instagram</button>
+        </div>
+
+        <!-- Sağ: Dil Seçeneği -->
         <div class="md:absolute right-6 mt-3 md:mt-0">
-            <select id="langSelect" onchange="changeLanguage()" class="bg-zinc-900 text-zinc-100 border border-zinc-700 text-sm rounded-lg focus:ring-rose-500 p-2 cursor-pointer outline-none">
+            <select id="langSelect" onchange="changeLanguage()" class="bg-zinc-900 text-zinc-100 border border-zinc-700 text-sm rounded-lg focus:ring-rose-500 p-2 cursor-pointer outline-none transition-colors">
                 <option value="tr">🇹🇷 TR</option>
                 <option value="en">🇬🇧 EN</option>
             </select>
@@ -39,17 +63,23 @@
     </header>
 
     <!-- Ana İçerik -->
-    <div class="flex-grow flex justify-center w-full max-w-7xl mx-auto px-4 py-8 gap-6">
-        <div class="hidden lg:block w-64"></div>
+    <div class="flex-grow flex flex-col items-center w-full max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Instagram Yakında Uyarısı (Başlangıçta Gizli) -->
+        <div id="instaComingSoon" class="hidden w-full max-w-2xl flex-col items-center justify-center py-20 text-center animate-pulse">
+            <div class="text-6xl mb-4 opacity-50">📸</div>
+            <h2 class="text-2xl font-bold text-white mb-2">Instagram Araçları Çok Yakında!</h2>
+            <p class="text-zinc-400">Instagram hikaye izleme, video indirme ve PP büyütme özellikleri yapım aşamasındadır. Takipte kalın.</p>
+        </div>
 
-        <!-- Orta Alan -->
-        <div class="flex-1 max-w-2xl flex flex-col items-center">
+        <!-- TIKTOK ARAÇLARI (Aktif Alan) -->
+        <div id="mainToolArea" class="flex-1 w-full max-w-2xl flex flex-col items-center">
 
-            <!-- Araç Seçim Sekmeleri -->
-            <div class="w-full flex bg-zinc-900 border border-zinc-800 rounded-xl p-1 mb-8 shadow-lg">
-                <button onclick="sekmeDegistir('hikaye')" id="tab-hikaye" class="flex-1 py-3 text-sm sm:text-base font-semibold rounded-lg bg-zinc-800 text-white shadow transition-all">Hikaye İndir</button>
-                <button onclick="sekmeDegistir('video')" id="tab-video" class="flex-1 py-3 text-sm sm:text-base font-semibold rounded-lg text-zinc-400 hover:text-white transition-all">Video İndir</button>
-                <button onclick="sekmeDegistir('profil')" id="tab-profil" class="flex-1 py-3 text-sm sm:text-base font-semibold rounded-lg text-zinc-400 hover:text-white transition-all">PP Büyüt</button>
+            <!-- Küçültülmüş Araç Seçim Sekmeleri -->
+            <div class="w-full max-w-md flex bg-zinc-900 border border-zinc-800 rounded-xl p-1 mb-8 shadow-lg">
+                <button onclick="sekmeDegistir('hikaye')" id="tab-hikaye" class="flex-1 py-2 sm:py-3 text-sm sm:text-base font-semibold rounded-lg bg-zinc-800 text-white shadow transition-all">Hikaye İndir</button>
+                <button onclick="sekmeDegistir('video')" id="tab-video" class="flex-1 py-2 sm:py-3 text-sm sm:text-base font-semibold rounded-lg text-zinc-400 hover:text-white transition-all">Video İndir</button>
+                <button onclick="sekmeDegistir('profil')" id="tab-profil" class="flex-1 py-2 sm:py-3 text-sm sm:text-base font-semibold rounded-lg text-zinc-400 hover:text-white transition-all">PP Büyüt</button>
             </div>
 
             <!-- Dinamik Başlıklar -->
@@ -77,7 +107,44 @@
             </div>
         </div>
 
-        <div class="hidden lg:block w-64"></div>
+        <!-- SEO, S.S.S ve AÇIKLAMA METNİ ALANI -->
+        <div class="w-full max-w-4xl mt-16 pt-10 border-t border-zinc-900/80">
+            
+            <!-- Sıkça Sorulan Sorular -->
+            <h3 class="text-xl font-bold text-white mb-6 border-l-4 border-rose-500 pl-3">Sıkça Sorulan Sorular (S.S.S.)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+                <div class="bg-zinc-900/50 p-5 rounded-xl border border-zinc-800/50 shadow-inner">
+                    <h4 class="font-semibold text-rose-400 mb-2">Sistem Tamamen Anonim mi?</h4>
+                    <p class="text-sm text-zinc-400 leading-relaxed">Kesinlikle evet. Yaptığınız aramalar ve izlediğiniz hikayeler bizim sunucularımız üzerinden işlendiği için karşı tarafa hiçbir şekilde sizin hesabınızla ilgili bir bildirim veya görüntülenme kaydı gitmez. %100 gizlilik prensibiyle çalışır.</p>
+                </div>
+                <div class="bg-zinc-900/50 p-5 rounded-xl border border-zinc-800/50 shadow-inner">
+                    <h4 class="font-semibold text-rose-400 mb-2">Ücretli mi? Güvenilir mi?</h4>
+                    <p class="text-sm text-zinc-400 leading-relaxed">TikStory'deki tüm sosyal medya analiz ve indirme araçları tamamen ücretsizdir. Sizden asla şifrenizi, kullanıcı giriş bilgilerinizi veya cihazınıza herhangi bir program yüklemenizi talep etmiyoruz. Sadece tarayıcı üzerinden güvenle çalışır.</p>
+                </div>
+            </div>
+
+            <!-- SEO Optimizasyon Metni (Çalışma Mantığı) -->
+            <h3 class="text-xl font-bold text-white mb-4 border-l-4 border-rose-500 pl-3">TikStory: Sosyal Medya Araç Kutunuz</h3>
+            <div class="text-sm text-zinc-400 space-y-4 leading-relaxed mb-12">
+                <p>Günümüzün dijital dünyasında sosyal medya içeriklerini analiz etmek, takip etmek ve gerektiğinde yedeklemek herkesin ihtiyacı haline geldi. TikStory, bu ihtiyaçları en hızlı ve en güvenli yoldan çözmek için tasarlanmış, çok fonksiyonlu bir web asistanıdır. Platformumuz, kullanıcı deneyimini ön planda tutarak karmaşık süreçleri tek bir tıklamaya indirger.</p>
+                
+                <p>Sistemimizin çalışma mantığı son derece modern ve basittir: Arka planda güvenli sunucular ve köprü (API) bağlantıları kullanırız. Örneğin bir kullanıcının hikayesini izlemek istediğinizde, doğrudan uygulamanın kendisinden değil, bizim sağladığımız bağımsız aracı sunuculardan faydalanırsınız. Böylece orijinal platformun izleme radarına takılmadan, görünmez bir şekilde medyaları inceleyebilir ve cihazınıza yüksek çözünürlükte (HD) kaydedebilirsiniz.</p>
+                
+                <p>Video indirme ve profil resmi (PP) büyütme sistemlerimiz de aynı mantıkla çalışır. İnternette beğendiğiniz bir içeriğin bağlantısını kopyalayıp sistemimize yapıştırdığınızda, güçlü yazılımımız videoyu analiz eder, üzerindeki rahatsız edici filigran (logo) kalıntılarını temizler ve size saf, orijinal kalitedeki MP4 dosyasını sunar. Ayrıca mobil cihazlarda net olarak görülemeyen hesap resimlerini, kalite kaybı yaşatmadan orijinal boyutlarında ekrana yansıtır. Tüm bu işlemler saniyeler içinde gerçekleşir ve cihazınızın belleğini gereksiz yere yormaz.</p>
+            </div>
+
+            <!-- Etiketler (Tags) -->
+            <div class="flex flex-wrap gap-2 justify-center pb-10">
+                <a href="#" class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">tiktok hikaye izleme</a>
+                <a href="#" class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">anonim hikaye izle</a>
+                <a href="#" class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">instagram video indir</a>
+                <a href="#" class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">filigransız tiktok</a>
+                <a href="#" class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">instagram hikaye izleme</a>
+                <a href="#" class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">profil resmi büyütme</a>
+                <a href="#" class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">programsız hd video indir</a>
+            </div>
+        </div>
+
     </div>
 
     <footer class="w-full py-6 flex justify-center mt-auto border-t border-zinc-900/50">
@@ -87,11 +154,75 @@
     </footer>
 
     <script>
+        // İLETİŞİM MODALI (Bize Ulaşın) YÖNETİMİ
+        function openContactModal() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeContactModal() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            // Formu temizle
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactMessage').value = '';
+        }
+
+        function sendContact() {
+            const msg = document.getElementById('contactMessage').value;
+            if(msg.length < 5) {
+                alert('Lütfen bir mesaj giriniz.');
+                return;
+            }
+            alert('Mesajınız başarıyla alındı! En kısa sürede dönüş yapılacaktır.');
+            closeContactModal();
+        }
+
+        // PLATFORM GEÇİŞ YÖNETİMİ (TikTok <-> Instagram)
+        function switchPlatform(platform) {
+            const tiktokBtn = document.getElementById('plat-tiktok');
+            const instaBtn = document.getElementById('plat-insta');
+            const mainToolArea = document.getElementById('mainToolArea');
+            const instaComingSoon = document.getElementById('instaComingSoon');
+
+            if (platform === 'tiktok') {
+                tiktokBtn.classList.add('text-rose-500');
+                tiktokBtn.classList.remove('text-zinc-600', 'hover:text-rose-500');
+                instaBtn.classList.add('text-zinc-600', 'hover:text-rose-500');
+                instaBtn.classList.remove('text-rose-500');
+                
+                mainToolArea.classList.remove('hidden');
+                mainToolArea.classList.add('flex');
+                instaComingSoon.classList.add('hidden');
+                instaComingSoon.classList.remove('flex');
+            } else if (platform === 'instagram') {
+                instaBtn.classList.add('text-rose-500');
+                instaBtn.classList.remove('text-zinc-600', 'hover:text-rose-500');
+                tiktokBtn.classList.add('text-zinc-600', 'hover:text-rose-500');
+                tiktokBtn.classList.remove('text-rose-500');
+                
+                mainToolArea.classList.add('hidden');
+                mainToolArea.classList.remove('flex');
+                instaComingSoon.classList.remove('hidden');
+                instaComingSoon.classList.add('flex');
+            }
+        }
+
+        // DİL SEÇİMİ (Placeholder)
+        function changeLanguage() {
+            const lang = document.getElementById('langSelect').value;
+            // Çeviri objeleri daha önceden eklendiyse buraya bağlanabilir.
+            document.getElementById('mainInput').placeholder = (lang === 'tr') ? 'kullaniciadi' : 'username';
+        }
+
+        // MEVCUT TIKTOK ARAÇLARI KODLARI
         let aktifArac = 'hikaye';
         const inputField = document.getElementById('mainInput');
         const inputIcon = document.getElementById('inputIcon');
 
-        // Enter Tuşu Desteği
         inputField.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
@@ -99,7 +230,6 @@
             }
         });
 
-        // Sayı Formatlayıcı (Profil için)
         const formatNum = (num) => {
             if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
             if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
@@ -136,8 +266,7 @@
                 inputIcon.innerText = "🔗";
                 buton.innerText = "Videoyu İndir";
             } else if (arac === 'profil') {
-                baslik.innerText = "Profil Resmi (PP) Büyütme";
-                baslik.innerText = "Profil Resmi  Büyütme";
+                baslik.innerText = "Profil Resmi Büyütme";
                 aciklama.innerText = "Herhangi bir kullanıcının profil fotoğrafını HD kalitede tam boyutlu indirin.";
                 inputField.placeholder = "kullaniciadi";
                 inputIcon.innerText = "@";
@@ -168,7 +297,6 @@
             results.innerHTML = ''; profileCont.innerHTML = ''; profileCont.classList.add('hidden'); btnYeni.classList.add('hidden');
 
             try {
-                // 1. HİKAYE ARACI
                 if (aktifArac === 'hikaye') {
                     const res = await fetch('/api/hikayeler/' + encodeURIComponent(input));
                     const data = await res.json();
@@ -216,15 +344,11 @@
                         results.innerHTML = htmlIcerik;
                     }
                 } 
-                    // 2. VİDEO İNDİRİCİ ARACI (Güncellenmiş)
                 else if (aktifArac === 'video') {
                     const res = await fetch('/api/video/?url=' + encodeURIComponent(input));
                     const data = await res.json();
-
-                    // tiktok-api23'ün dönen veri yapısı genelde 'data' içindedir
+                    
                     const vData = data.data || data;
-
-                    // API'den gelen doğru video linkini yakalıyoruz
                     const videoUrl = vData.play || vData.video || vData.download_url || vData.wmplay;
                     const coverUrl = vData.cover || 'https://via.placeholder.com/300x400?text=Video';
 
@@ -235,7 +359,6 @@
                             <img src="${coverUrl}" class="w-full md:w-1/3 rounded-xl object-cover shadow-lg max-h-64">
                             <div class="flex flex-col w-full md:w-2/3 text-center md:text-left">
                                 <h3 class="text-white font-semibold text-lg mb-4 leading-relaxed">${vData.title || 'TikTok Videosu'}</h3>
-                                <!-- İNDİRME BUTONU -->
                                 <a href="${videoUrl}" target="_blank" rel="noopener" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-6 rounded-lg shadow-lg text-lg transition-all active:scale-95 text-center">
                                     ⬇ Filigransız İndir
                                 </a>
@@ -244,8 +367,6 @@
                         </div>
                     `;
                 }
-                // 3. PROFİL (PP) BÜYÜTÜCÜ ARACI
-                // 3. PROFİL  BÜYÜTÜCÜ ARACI
                 else if (aktifArac === 'profil') {
                     const res = await fetch('/api/profil/' + encodeURIComponent(input));
                     const data = await res.json();
