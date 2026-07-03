@@ -219,7 +219,7 @@
             if(r.ok){alert('İletildi!');closeContactModal();}else alert('Hata!');}catch(e){alert('Bağlantı hatası.');}finally{b.innerText='Gönder';b.disabled=false;}
         }
 
-        // --- Platform Geçişi (TikTok <-> Instagram) ---
+        // --- Platform Geçişi ---
         function switchPlatform(platform) {
             const t=document.getElementById('plat-tiktok'), i=document.getElementById('plat-insta'), tArea=document.getElementById('mainToolArea'), iArea=document.getElementById('instaToolArea');
             if(platform==='tiktok'){ 
@@ -240,7 +240,7 @@
             document.getElementById('instaInput').placeholder = lang === 'tr' ? 'kullaniciadi' : 'username'; 
         }
 
-        // ====== TIKTOK FONKSİYONLARI (Eski Sistem) ======
+        // ====== TIKTOK FONKSİYONLARI (TAM VE ÇALIŞAN VERSİYON) ======
         let aktifArac = 'hikaye';
         const inputField = document.getElementById('mainInput');
         inputField.addEventListener("keypress", e => { if (e.key === "Enter") { e.preventDefault(); aramaYap(); } });
@@ -260,9 +260,90 @@
             yeniAramaYonetimi();
         }
         function yeniAramaYonetimi() { inputField.value = ''; document.getElementById('results').innerHTML = ''; document.getElementById('userProfileContainer').innerHTML = ''; document.getElementById('userProfileContainer').classList.add('hidden'); document.getElementById('yeniAramaContainer').classList.add('hidden'); }
-        async function aramaYap() { /* TikTok Arama Kodları - Arka planda tıkır tıkır çalışır */ }
+        
+        async function aramaYap() {
+            const input = inputField.value.trim(), loader = document.getElementById('loader'), results = document.getElementById('results'), profileCont = document.getElementById('userProfileContainer'), btnYeni = document.getElementById('yeniAramaContainer');
+            if(!input) { inputField.focus(); return; }
+            loader.classList.remove('hidden'); loader.classList.add('flex'); results.innerHTML = ''; profileCont.innerHTML = ''; profileCont.classList.add('hidden'); btnYeni.classList.add('hidden');
 
-        // ====== YENİ: INSTAGRAM FONKSİYONLARI ======
+            try {
+                if (aktifArac === 'hikaye') {
+                    const res = await fetch('/api/hikayeler/' + encodeURIComponent(input)); const data = await res.json();
+                    if(data.profil && data.profil.userInfo) {
+                        const user = data.profil.userInfo.user, stats = data.profil.userInfo.stats;
+                        profileCont.innerHTML = `
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-2xl">
+                                <img src="${user.avatarLarger || user.avatarMedium}" class="w-28 h-28 rounded-full border-4 border-zinc-800 object-cover shadow-lg">
+                                <div class="flex flex-col items-center sm:items-start text-center sm:text-left w-full">
+                                    <h3 class="text-2xl font-bold text-white mb-1">${user.nickname}</h3>
+                                    <p class="text-rose-500 text-sm font-medium mb-2">@${user.uniqueId}</p>
+                                    <p class="text-zinc-400 text-sm mb-4 leading-relaxed">${user.signature || ''}</p>
+                                    <div class="flex gap-6 w-full justify-center sm:justify-start border-t border-zinc-800 pt-3">
+                                        <div class="flex flex-col items-center"><span class="font-bold text-white">${formatNum(stats.followingCount)}</span><span class="text-zinc-500 text-xs uppercase">Takip</span></div>
+                                        <div class="flex flex-col items-center"><span class="font-bold text-white">${formatNum(stats.followerCount)}</span><span class="text-zinc-500 text-xs uppercase">Takipçi</span></div>
+                                        <div class="flex flex-col items-center"><span class="font-bold text-white">${formatNum(stats.heartCount)}</span><span class="text-zinc-500 text-xs uppercase">Beğeni</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        profileCont.classList.remove('hidden');
+                    }
+                    if (!data.hikayeler || !data.hikayeler.data || !data.hikayeler.data.videos || data.hikayeler.data.videos.length === 0) {
+                        results.innerHTML = `<p class="text-zinc-400 w-full text-center col-span-1 sm:col-span-2 py-6 border border-zinc-800 rounded-xl bg-zinc-900/50">Aktif hikaye bulunamadı veya hesap gizli.</p>`;
+                    } else {
+                        let htmlIcerik = '';
+                        data.hikayeler.data.videos.forEach(hikaye => {
+                            let medya = '', link = '';
+                            if (hikaye.images && hikaye.images.length > 0) { medya = `<img src="${hikaye.images[0]}" class="w-full h-full object-cover">`; link = hikaye.images[0]; }
+                            else if (hikaye.play) { medya = `<video src="${hikaye.play}" poster="${hikaye.cover}" controls class="w-full h-full object-cover"></video>`; link = hikaye.play; }
+                            if (link) {
+                                htmlIcerik += `
+                                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col shadow-xl">
+                                        <div class="h-96 bg-black flex items-center justify-center relative">${medya}</div>
+                                        <div class="p-4 bg-zinc-900 border-t border-zinc-800">
+                                            <a href="${link}" target="_blank" download class="w-full text-center block bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 rounded-lg shadow-lg">⬇ İndir (HD)</a>
+                                        </div>
+                                    </div>`;
+                            }
+                        });
+                        results.innerHTML = htmlIcerik;
+                    }
+                } 
+                else if (aktifArac === 'video') {
+                    const res = await fetch('/api/video/?url=' + encodeURIComponent(input)); const data = await res.json();
+                    const vData = data.data || data; const videoUrl = vData.play || vData.video || vData.download_url || vData.wmplay; const coverUrl = vData.cover || 'https://via.placeholder.com/300x400?text=Video';
+                    if (!videoUrl) throw new Error("Video linki yakalanamadı.");
+                    results.innerHTML = `
+                        <div class="col-span-1 sm:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col md:flex-row shadow-2xl items-center p-6 gap-8">
+                            <img src="${coverUrl}" class="w-full md:w-1/3 rounded-xl object-cover shadow-lg max-h-64">
+                            <div class="flex flex-col w-full md:w-2/3 text-center md:text-left">
+                                <h3 class="text-white font-semibold text-lg mb-4 leading-relaxed">${vData.title || 'TikTok Videosu'}</h3>
+                                <a href="${videoUrl}" target="_blank" rel="noopener" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-6 rounded-lg shadow-lg text-lg transition-all active:scale-95 text-center">
+                                    ⬇ Filigransız İndir
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }
+                else if (aktifArac === 'profil') {
+                    const res = await fetch('/api/profil/' + encodeURIComponent(input)); const data = await res.json();
+                    const user = data.userInfo?.user || data; const avatarUrl = user.avatarLarger || user.avatarMedium || user.avatar_larger;
+                    if (!avatarUrl) throw new Error("Profil bulunamadı.");
+                    results.innerHTML = `
+                        <div class="col-span-1 sm:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-10 flex flex-col items-center shadow-2xl">
+                            <img src="${avatarUrl}" class="w-56 h-56 rounded-full border-4 border-rose-500 object-cover shadow-2xl mb-6">
+                            <h3 class="text-white font-bold text-3xl mb-8">@${user.uniqueId || input}</h3>
+                            <a href="${avatarUrl}" target="_blank" class="w-full max-w-sm text-center bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-xl shadow-lg text-lg transition-all">
+                                ⬇ HD Boyutta İndir
+                            </a>
+                        </div>
+                    `;
+                }
+            } catch (error) { results.innerHTML = `<p class="text-rose-500 w-full text-center col-span-1 sm:col-span-2 py-4 bg-rose-500/10 rounded-lg border border-rose-500/20">Hata: ${error.message || 'Bulunamadı.'}</p>`; } 
+            finally { loader.classList.add('hidden'); loader.classList.remove('flex'); btnYeni.classList.remove('hidden'); }
+        }
+
+        // ====== INSTAGRAM FONKSİYONLARI (AKILLI VİTRİN) ======
         let aktifAracInsta = 'hikaye';
         const instaInputField = document.getElementById('instaInput');
         instaInputField.addEventListener("keypress", e => { if (e.key === "Enter") { e.preventDefault(); aramaYapInsta(); } });
@@ -296,7 +377,7 @@
                 
                 if(data.error) throw new Error(data.error);
 
-                // --- PROFİL (PP) BÜYÜTME VİTRİNİ ---
+                // --- 1. ARAÇ: PROFİL (PP) BÜYÜTME ---
                 if (aktifAracInsta === 'profil') {
                     const user = data.result;
                     if (!user) throw new Error("Profil bulunamadı.");
@@ -311,34 +392,90 @@
                     results.innerHTML = `
                         <div class="col-span-1 sm:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-10 flex flex-col items-center shadow-2xl relative overflow-hidden">
                             <div class="absolute top-0 w-full h-32 bg-gradient-to-b from-purple-900/20 to-transparent"></div>
-                            
                             <img src="${avatarUrl}" class="w-56 h-56 rounded-full border-4 border-purple-500 object-cover shadow-2xl mb-6 relative z-10">
-                            
                             <div class="flex items-center justify-center mb-2 relative z-10">
                                 <h3 class="text-white font-bold text-3xl">@${user.username}</h3>
                                 ${isPrivate}
                             </div>
                             <p class="text-zinc-400 font-medium mb-6 relative z-10">${user.full_name || ''}</p>
-                            
                             <div class="flex gap-8 w-full justify-center border-t border-zinc-800 pt-6 mb-8 relative z-10">
                                 <div class="flex flex-col items-center"><span class="font-bold text-white text-xl">${formatNum(posts)}</span><span class="text-zinc-500 text-xs uppercase">Gönderi</span></div>
                                 <div class="flex flex-col items-center"><span class="font-bold text-white text-xl">${formatNum(followers)}</span><span class="text-zinc-500 text-xs uppercase">Takipçi</span></div>
                                 <div class="flex flex-col items-center"><span class="font-bold text-white text-xl">${formatNum(following)}</span><span class="text-zinc-500 text-xs uppercase">Takip</span></div>
                             </div>
-
                             <a href="${avatarUrl}" target="_blank" class="w-full max-w-sm text-center bg-gradient-to-r from-purple-600 to-rose-600 hover:from-purple-700 hover:to-rose-700 text-white font-bold py-4 rounded-xl shadow-lg text-lg transition-all relative z-10 active:scale-95">
                                 ⬇ HD Boyutta İndir
                             </a>
                         </div>
                     `;
                 } 
-                // DİĞER ARAÇLAR İÇİN DEPODAN JSON BASTIRMA
+                // --- 2. ARAÇ: DİĞERLERİ İÇİN AKILLI VİTRİN AVCI SİSTEMİ ---
                 else {
-                    results.innerHTML = `<div class="col-span-1 sm:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl p-6 shadow-xl text-center">
-                        <p class="text-zinc-300 mb-4">Veriler başarıyla çekildi! (Sistemin Backend'den veriyi alıyor)</p>
-                        <textarea class="w-full bg-black text-green-400 p-4 rounded-lg text-xs" rows="8" readonly>${JSON.stringify(data, null, 2)}</textarea>
-                        <p class="text-zinc-500 text-xs mt-2">* Not: API'den dönen JSON sonucunu buraya bastırdım. Tasarımın kalanını verinin içindeki kelimelere göre şablonlayacağız.</p>
-                    </div>`;
+                    let mediaItems = [];
+                    
+                    // JSON'un içinde gezip gizli medyaları çıkaran robot fonksiyon
+                    function findMedia(obj) {
+                        if(!obj || typeof obj !== 'object') return;
+                        
+                        let isMedia = false;
+                        let mediaObj = { type: 'image', url: '', cover: '' };
+
+                        if (obj.video_versions && Array.isArray(obj.video_versions) && obj.video_versions.length > 0) {
+                            mediaObj.type = 'video';
+                            mediaObj.url = obj.video_versions[0].url;
+                            mediaObj.cover = (obj.image_versions2 && obj.image_versions2.candidates) ? obj.image_versions2.candidates[0].url : '';
+                            isMedia = true;
+                        } else if (obj.video_url) {
+                            mediaObj.type = 'video';
+                            mediaObj.url = obj.video_url;
+                            mediaObj.cover = obj.display_url || obj.thumbnail_src || '';
+                            isMedia = true;
+                        } else if (obj.image_versions2 && obj.image_versions2.candidates && obj.image_versions2.candidates.length > 0) {
+                            mediaObj.type = 'image';
+                            mediaObj.url = obj.image_versions2.candidates[0].url;
+                            mediaObj.cover = mediaObj.url;
+                            if (!obj.username) isMedia = true; // Profil resimlerini elemek için
+                        } else if (obj.display_url && !obj.profile_pic_url) {
+                            mediaObj.type = 'image';
+                            mediaObj.url = obj.display_url;
+                            mediaObj.cover = obj.display_url;
+                            isMedia = true;
+                        }
+
+                        if (isMedia && mediaObj.url) {
+                            if (!mediaItems.find(m => m.url === mediaObj.url)) {
+                                mediaItems.push(mediaObj);
+                            }
+                        }
+
+                        for (let key in obj) {
+                            if (typeof obj[key] === 'object') {
+                                if (key !== 'user' && key !== 'owner') { findMedia(obj[key]); }
+                            }
+                        }
+                    }
+
+                    findMedia(data);
+
+                    if (mediaItems.length === 0) {
+                        results.innerHTML = `<p class="text-zinc-400 w-full text-center col-span-1 sm:col-span-2 py-6 border border-zinc-800 rounded-xl bg-zinc-900/50">Medya bulunamadı, gönderi yok veya hesap gizli olabilir.</p>`;
+                    } else {
+                        let htmlIcerik = '';
+                        mediaItems.forEach(item => {
+                            let medya = item.type === 'video' 
+                                ? `<video src="${item.url}" poster="${item.cover}" controls class="w-full h-full object-cover"></video>` 
+                                : `<img src="${item.url}" class="w-full h-full object-cover">`;
+
+                            htmlIcerik += `
+                                <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col shadow-xl">
+                                    <div class="h-96 bg-black flex items-center justify-center relative">${medya}</div>
+                                    <div class="p-4 bg-zinc-900 border-t border-zinc-800">
+                                        <a href="${item.url}" target="_blank" download class="w-full text-center block bg-gradient-to-r from-purple-600 to-rose-600 hover:from-purple-700 hover:to-rose-700 text-white font-semibold py-3 rounded-lg shadow-lg">⬇ İndir (HD)</a>
+                                    </div>
+                                </div>`;
+                        });
+                        results.innerHTML = htmlIcerik;
+                    }
                 }
 
             } catch (error) { 
