@@ -26,7 +26,7 @@
         ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col relative">
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col relative overflow-x-hidden">
 
     <!-- BİZE ULAŞIN MODALI -->
     <div id="contactModal" class="hidden fixed inset-0 z-[60] bg-black/80 items-center justify-center p-4 backdrop-blur-sm transition-all">
@@ -58,6 +58,35 @@
         </div>
     </header>
 
+    <!-- ÜST REKLAM ALANI (320x50 Banner) -->
+    <div class="w-full flex justify-center py-3 bg-zinc-900/30 border-b border-zinc-900/50 min-h-[50px]">
+        <script>
+            atOptions = {
+                'key' : 'e43b6f9154cb329854283734c3dad34b',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script src="https://www.highperformanceformat.com/e43b6f9154cb329854283734c3dad34b/invoke.js"></script>
+    </div>
+
+    <!-- SAĞ VE SOL SABİT SPONSOR ALANLARI (Sadece Bilgisayarda Görünür - Direct Link Yönlendirmeli) -->
+    <a href="https://www.effectivecpmnetwork.com/cgasq3j5?key=c73b529381bb6e61dfc002a09909e17f" target="_blank" class="hidden xl:flex fixed left-4 top-1/2 -translate-y-1/2 w-[160px] h-[600px] bg-zinc-900/80 border border-zinc-800 rounded-xl flex-col items-center justify-center text-center p-4 hover:border-rose-500 transition-all z-40 group cursor-pointer">
+        <span class="text-xs text-zinc-500 tracking-widest uppercase mb-4">Reklam</span>
+        <div class="w-full h-full border border-dashed border-zinc-700 group-hover:border-rose-500/50 rounded-lg flex items-center justify-center bg-zinc-950/50">
+            <span class="text-zinc-400 font-medium group-hover:text-rose-400 transition-colors">Sponsorlu<br>İçerik</span>
+        </div>
+    </a>
+
+    <a href="https://www.effectivecpmnetwork.com/cgasq3j5?key=c73b529381bb6e61dfc002a09909e17f" target="_blank" class="hidden xl:flex fixed right-4 top-1/2 -translate-y-1/2 w-[160px] h-[600px] bg-zinc-900/80 border border-zinc-800 rounded-xl flex-col items-center justify-center text-center p-4 hover:border-rose-500 transition-all z-40 group cursor-pointer">
+        <span class="text-xs text-zinc-500 tracking-widest uppercase mb-4">Reklam</span>
+        <div class="w-full h-full border border-dashed border-zinc-700 group-hover:border-rose-500/50 rounded-lg flex items-center justify-center bg-zinc-950/50">
+            <span class="text-zinc-400 font-medium group-hover:text-rose-400 transition-colors">Tıkla &<br>İncele</span>
+        </div>
+    </a>
+
     <!-- Ana İçerik -->
     <div class="flex-grow flex flex-col items-center w-full max-w-7xl mx-auto px-4 py-8">
         
@@ -67,8 +96,9 @@
             <p class="text-zinc-400">Instagram hikaye izleme, video indirme ve PP büyütme özellikleri yapım aşamasındadır.</p>
         </div>
 
+        <!-- Arama ve Araç Merkezi (REKLAMSIZ TEMİZ BÖLGE) -->
         <div id="mainToolArea" class="flex-1 w-full max-w-2xl flex flex-col items-center">
-            <div class="w-full max-w-md flex bg-zinc-900 border border-zinc-800 rounded-xl p-1 mb-8 shadow-lg">
+            <div class="w-full max-w-md flex bg-zinc-900 border border-zinc-800 rounded-xl p-1 mb-8 shadow-lg z-10 relative">
                 <button onclick="sekmeDegistir('hikaye')" id="tab-hikaye" class="flex-1 py-2 sm:py-3 text-sm sm:text-base font-semibold rounded-lg bg-zinc-800 text-white shadow transition-all">Hikaye İndir</button>
                 <button onclick="sekmeDegistir('video')" id="tab-video" class="flex-1 py-2 sm:py-3 text-sm sm:text-base font-semibold rounded-lg text-zinc-400 hover:text-white transition-all">Video İndir</button>
                 <button onclick="sekmeDegistir('profil')" id="tab-profil" class="flex-1 py-2 sm:py-3 text-sm sm:text-base font-semibold rounded-lg text-zinc-400 hover:text-white transition-all">PP Büyüt</button>
@@ -77,118 +107,114 @@
             <h2 id="aracBaslik" class="text-3xl font-bold mb-3 text-center text-white">Anonim Hikaye İzle</h2>
             <p id="aracAciklama" class="text-zinc-400 mb-8 text-center text-sm px-4">Kullanıcı adını yazın, karşı tarafa bildirim gitmeden anonim olarak izleyin ve cihazınıza kaydedin.</p>
 
-            <div class="w-full relative mb-4 shadow-xl group">
+            <div class="w-full relative mb-4 shadow-xl group z-10">
                 <span id="inputIcon" class="absolute inset-y-0 left-0 flex items-center pl-4 text-zinc-500 text-lg font-medium group-focus-within:text-rose-500 transition-colors">@</span>
                 <input type="text" id="mainInput" placeholder="kullaniciadi" class="w-full bg-zinc-900 border border-zinc-700 text-white rounded-xl py-4 pl-10 pr-4 focus:outline-none focus:border-rose-500 text-center text-lg shadow-inner">
             </div>
 
-            <button onclick="aramaYap()" id="searchBtn" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg mb-10 text-lg">Hikayeleri Bul</button>
+            <button onclick="aramaYap()" id="searchBtn" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg mb-10 text-lg relative z-10 cursor-pointer">Hikayeleri Bul</button>
 
             <div id="loader" class="hidden flex-col items-center mb-10">
                 <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-rose-500 mb-2"></div>
                 <p class="text-zinc-400 text-sm animate-pulse">Sistem taranıyor...</p>
             </div>
 
-            <div id="userProfileContainer" class="hidden w-full mb-8"></div>
-            <div id="results" class="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6"></div>
+            <div id="userProfileContainer" class="hidden w-full mb-8 relative z-10"></div>
+            <div id="results" class="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 relative z-10"></div>
 
-            <div id="yeniAramaContainer" class="hidden w-full mb-12 flex justify-center">
+            <div id="yeniAramaContainer" class="hidden w-full mb-12 flex justify-center relative z-10">
                 <button onclick="yeniAramaYonetimi()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 py-3 px-6 rounded-lg shadow-md text-sm">Başka Bir Arama Yap</button>
             </div>
         </div>
 
-        <!-- YENİ EKLENEN SEO VE BİLGİ BÖLÜMLERİ BAŞLANGICI -->
-        
+        <!-- ORTA REKLAM ALANI (Native Banner / Makale Arası) -->
+        <div class="w-full max-w-4xl flex justify-center items-center my-8 bg-zinc-900/20 p-4 rounded-2xl min-h-[100px]">
+            <script async="async" data-cfasync="false" src="https://pl30195058.effectivecpmnetwork.com/83ed8be9bc76d8b0ab8f255efd2142bb/invoke.js"></script>
+            <div id="container-83ed8be9bc76d8b0ab8f255efd2142bb"></div>
+        </div>
+
+        <!-- İçerik İçi Sponsor Butonu (Direct Link Tıklaması Almak İçin) -->
+        <div class="w-full max-w-4xl flex justify-center mb-12">
+            <a href="https://www.effectivecpmnetwork.com/cgasq3j5?key=c73b529381bb6e61dfc002a09909e17f" target="_blank" class="bg-zinc-800/80 border border-zinc-700 hover:border-rose-500 text-zinc-300 px-8 py-3 rounded-xl flex items-center justify-center transition-all shadow-lg text-sm w-full sm:w-auto gap-2 group">
+                <span class="text-rose-500 group-hover:animate-pulse">⭐</span> Sponsorlu Bağlantı - Hemen İncele
+            </a>
+        </div>
+
         <!-- Özellikler Bölümü -->
-        <div class="w-full max-w-5xl mt-12 pt-10 border-t border-zinc-900/80">
+        <div class="w-full max-w-5xl pt-4 border-t border-zinc-900/80">
             <div class="text-center mb-12">
                 <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Neden TikStory'yi Kullanmalısınız?</h2>
                 <p class="text-zinc-400 text-sm max-w-2xl mx-auto">Tüm sosyal medya araçlarını tek bir platformda, en güvenli ve en hızlı şekilde sunuyoruz. Hesabınıza giriş yapmanıza gerek yok!</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-                <!-- Kutu 1 -->
                 <div class="bg-zinc-900/40 p-6 rounded-2xl border border-zinc-800/50 hover:border-rose-500/50 transition-colors">
                     <div class="text-rose-500 text-3xl mb-4">🕵️‍♂️</div>
                     <h3 class="text-lg font-bold text-white mb-2">%100 Anonim Gizlilik</h3>
-                    <p class="text-sm text-zinc-400">İzlediğiniz hikayeler, profiller ve indirdiğiniz videolar tamamen gizli kalır. Karşı tarafa asla "Görüldü" veya bildirim gitmez.</p>
+                    <p class="text-sm text-zinc-400">İzlediğiniz hikayeler, profiller ve indirdiğiniz videolar tamamen gizli kalır. Karşı tarafa asla "Görüldü" gitmez.</p>
                 </div>
-                <!-- Kutu 2 -->
                 <div class="bg-zinc-900/40 p-6 rounded-2xl border border-zinc-800/50 hover:border-rose-500/50 transition-colors">
                     <div class="text-rose-500 text-3xl mb-4">✨</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Filigransız İndirme (No Watermark)</h3>
-                    <p class="text-sm text-zinc-400">TikTok videolarını can sıkıcı platform logoları (filigran) olmadan, orijinal HD kalitesinde doğrudan galerinize kaydedin.</p>
+                    <h3 class="text-lg font-bold text-white mb-2">Filigransız İndirme</h3>
+                    <p class="text-sm text-zinc-400">TikTok videolarını can sıkıcı platform logoları olmadan, orijinal HD kalitesinde doğrudan galerinize kaydedin.</p>
                 </div>
-                <!-- Kutu 3 -->
                 <div class="bg-zinc-900/40 p-6 rounded-2xl border border-zinc-800/50 hover:border-rose-500/50 transition-colors">
                     <div class="text-rose-500 text-3xl mb-4">⚡</div>
                     <h3 class="text-lg font-bold text-white mb-2">Ücretsiz ve Programsız</h3>
-                    <p class="text-sm text-zinc-400">Telefonunuza uygulama kurmanıza, şifre vermenize veya kayıt olmanıza gerek yok. Tamamen web tabanlı ve sınırsız bedava.</p>
+                    <p class="text-sm text-zinc-400">Uygulama kurmanıza, şifre vermenize gerek yok. Tamamen web tabanlı ve sınırsız bedava.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Nasıl Çalışır Adımları (SEO için Mükemmel) -->
+        <!-- Nasıl Çalışır Adımları -->
         <div class="w-full max-w-5xl mb-16 bg-zinc-900/30 rounded-3xl p-8 border border-zinc-800/30">
             <h2 class="text-2xl font-bold text-white mb-8 text-center">Nasıl Çalışır? Sadece 3 Basit Adım</h2>
             <div class="flex flex-col md:flex-row justify-between items-center gap-8 relative">
                 <div class="flex-1 text-center">
                     <div class="w-16 h-16 bg-zinc-800 rounded-full flex items-center justify-center text-rose-500 text-2xl font-bold mx-auto mb-4 shadow-lg border border-zinc-700">1</div>
-                    <h4 class="font-semibold text-white mb-2">Linki Kopyala veya Adı Yaz</h4>
-                    <p class="text-xs text-zinc-400">TikTok uygulamasını açın, indirmek istediğiniz videonun linkini kopyalayın veya kişinin kullanıcı adını aklınızda tutun.</p>
+                    <h4 class="font-semibold text-white mb-2">Linki Kopyala</h4>
+                    <p class="text-xs text-zinc-400">İndirmek istediğiniz videonun linkini kopyalayın veya kullanıcı adını kopyalayın.</p>
                 </div>
                 <div class="hidden md:block w-12 h-0.5 bg-zinc-700"></div>
                 <div class="flex-1 text-center">
                     <div class="w-16 h-16 bg-zinc-800 rounded-full flex items-center justify-center text-rose-500 text-2xl font-bold mx-auto mb-4 shadow-lg border border-zinc-700">2</div>
                     <h4 class="font-semibold text-white mb-2">Kutucuğa Yapıştır</h4>
-                    <p class="text-xs text-zinc-400">Sitemizdeki üst kutucuğa bağlantıyı veya kullanıcı adını yapıştırıp arama butonuna basın. Sistem saniyeler içinde tarar.</p>
+                    <p class="text-xs text-zinc-400">Sitemizdeki üst kutucuğa yapıştırıp arama butonuna basın. Sistem saniyeler içinde tarar.</p>
                 </div>
                 <div class="hidden md:block w-12 h-0.5 bg-zinc-700"></div>
                 <div class="flex-1 text-center">
                     <div class="w-16 h-16 bg-rose-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4 shadow-lg shadow-rose-500/30">3</div>
                     <h4 class="font-semibold text-white mb-2">HD Kalitede İndir</h4>
-                    <p class="text-xs text-zinc-400">Karşınıza çıkan videoyu, hikayeyi veya profil fotoğrafını 'İndir' butonuna basarak anında cihazınıza kaydedin.</p>
+                    <p class="text-xs text-zinc-400">Karşınıza çıkan medyayı 'İndir' butonuna basarak anında cihazınıza kaydedin.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Kapsamlı SSS (SEO'nun Kalbi) -->
+        <!-- Kapsamlı SSS -->
         <div class="w-full max-w-4xl mb-12">
             <h3 class="text-xl font-bold text-white mb-6 border-l-4 border-rose-500 pl-3">Sıkça Sorulan Sorular (S.S.S.)</h3>
             <div class="space-y-4">
                 <div class="bg-zinc-900/50 p-5 rounded-xl border border-zinc-800/50">
-                    <h4 class="font-semibold text-rose-400 mb-2">Videoları filigransız (logosuz) nasıl indirebilirim?</h4>
-                    <p class="text-sm text-zinc-400 leading-relaxed">Üst menüden "Video İndir" sekmesini seçin. TikTok'ta beğendiğiniz videonun bağlantısını (Paylaş > Bağlantıyı Kopyala) kopyalayıp arama kutusuna yapıştırın. Sistemimiz videodaki TikTok logosunu otomatik olarak temizler ve size saf, yüksek çözünürlüklü (MP4) dosyayı sunar.</p>
+                    <h4 class="font-semibold text-rose-400 mb-2">Videoları filigransız nasıl indirebilirim?</h4>
+                    <p class="text-sm text-zinc-400 leading-relaxed">Üst menüden "Video İndir" sekmesini seçin. Videonun bağlantısını arama kutusuna yapıştırın. Sistemimiz videodaki logoyu otomatik olarak temizler.</p>
                 </div>
                 <div class="bg-zinc-900/50 p-5 rounded-xl border border-zinc-800/50">
                     <h4 class="font-semibold text-rose-400 mb-2">Hikaye izlediğimde karşı taraf anlar mı?</h4>
-                    <p class="text-sm text-zinc-400 leading-relaxed">Kesinlikle hayır. TikStory sunucuları, verileri doğrudan TikTok'un açık API'leri üzerinden anonim olarak çeker. Kendi hesabınızla giriş yapmadığınız için, hikayesini veya profilini incelediğiniz kişinin görüntülenme listesinde isminiz veya herhangi bir dijital iziniz çıkmaz.</p>
-                </div>
-                <div class="bg-zinc-900/50 p-5 rounded-xl border border-zinc-800/50">
-                    <h4 class="font-semibold text-rose-400 mb-2">TikStory iOS (iPhone) ve Android cihazlarda çalışır mı?</h4>
-                    <p class="text-sm text-zinc-400 leading-relaxed">Evet! Platformumuz tamamen web tarayıcısı üzerinden çalışır. iPhone (Safari), Android (Chrome, Opera) veya bilgisayarınızdaki (Windows/Mac) herhangi bir tarayıcıdan sitemize girerek tüm özellikleri eksiksiz ve ücretsiz kullanabilirsiniz. Cihaz hafızanızı yoracak bir uygulama indirmenize gerek yoktur.</p>
-                </div>
-                <div class="bg-zinc-900/50 p-5 rounded-xl border border-zinc-800/50">
-                    <h4 class="font-semibold text-rose-400 mb-2">İndirdiğim dosyalar telefonumda nereye kaydedilir?</h4>
-                    <p class="text-sm text-zinc-400 leading-relaxed">Android cihazlarda indirilen videolar ve profil fotoğrafları genellikle doğrudan "Galeri" veya "İndirilenler (Downloads)" klasörüne düşer. iPhone'larda ise (iOS) Safari tarayıcısı dosyayı önce "Dosyalar" uygulamasına indirir, isterseniz oradan "Videoyu Kaydet" diyerek Film Rulosuna aktarabilirsiniz.</p>
+                    <p class="text-sm text-zinc-400 leading-relaxed">Kesinlikle hayır. Kendi hesabınızla giriş yapmadığınız için, hikayesini incelediğiniz kişinin görüntülenme listesinde isminiz çıkmaz.</p>
                 </div>
             </div>
         </div>
 
-        <!-- SEO Anahtar Kelime Etiketleri -->
+        <!-- SEO Anahtar Kelime Etiketleri (Direct Linkli Sahte Etiket Eklendi) -->
         <div class="w-full max-w-4xl pb-10">
-            <div class="flex flex-wrap gap-2 justify-center">
-                <a class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">tiktok video indir</a>
-                <a class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">tiktok hikaye indir</a>
-                <a class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">anonim hikaye izle</a>
-                <a class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">filigransız tiktok indir mp4</a>
-                <a class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">tiktok pp büyütme</a>
-                <a class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">programsız video kaydet</a>
-                <a class="text-xs font-medium bg-zinc-900 text-zinc-500 hover:text-rose-400 cursor-pointer px-3 py-1.5 rounded-md border border-zinc-800 transition-colors">tiktok izlenme gizleme</a>
+            <div class="flex flex-wrap gap-2 justify-center items-center">
+                <span class="text-xs font-medium bg-zinc-900 text-zinc-500 px-3 py-1.5 rounded-md border border-zinc-800">tiktok video indir</span>
+                <span class="text-xs font-medium bg-zinc-900 text-zinc-500 px-3 py-1.5 rounded-md border border-zinc-800">anonim hikaye izle</span>
+                <a href="https://www.effectivecpmnetwork.com/cgasq3j5?key=c73b529381bb6e61dfc002a09909e17f" target="_blank" class="text-xs font-medium bg-rose-900/20 text-rose-400 hover:bg-rose-900/40 cursor-pointer px-3 py-1.5 rounded-md border border-rose-800/50 transition-colors">🔥 Sponsorlu Fırsatlar</a>
+                <span class="text-xs font-medium bg-zinc-900 text-zinc-500 px-3 py-1.5 rounded-md border border-zinc-800">tiktok pp büyütme</span>
+                <span class="text-xs font-medium bg-zinc-900 text-zinc-500 px-3 py-1.5 rounded-md border border-zinc-800">filigransız tiktok</span>
             </div>
         </div>
-
-        <!-- YENİ EKLENEN SEO VE BİLGİ BÖLÜMLERİ SONU -->
 
     </div>
 
@@ -199,15 +225,14 @@
         </div>
     </footer>
 
-    <!-- Arama ve Sekme Değiştirme JS Fonksiyonları (Öncekiyle Aynı, Bozulmadı) -->
+    <!-- JS Fonksiyonları -->
     <script>
-        // İletişim, sekme ve arama fonksiyonları mevcut sistemde tıkır tıkır çalışan kodlardır...
         function openContactModal() { document.getElementById('contactModal').classList.remove('hidden'); document.getElementById('contactModal').classList.add('flex'); }
         function closeContactModal() { document.getElementById('contactModal').classList.add('hidden'); document.getElementById('contactModal').classList.remove('flex'); }
         async function sendContact() {
             const n=document.getElementById('contactName').value, e=document.getElementById('contactEmail').value, m=document.getElementById('contactMessage').value, b=document.getElementById('contactSendBtn');
             if(!n||!e||!m){alert('Tüm alanları doldurun.');return;} b.innerText='Gönderiliyor...'; b.disabled=true;
-            try{ const r=await fetch('https://formsubmit.co/ajax/ozbekeray02@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({Gönderen:n,"E-posta":e,Mesaj:m,_subject:"TikStory Mesaj!"})});
+            try{ const r=await fetch('https://formsubmit.co/ajax/tikstory.iletisim@outlook.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({Gönderen:n,"E-posta":e,Mesaj:m,_subject:"TikStory Mesaj!"})});
             if(r.ok){alert('İletildi!');closeContactModal();}else alert('Hata!');}catch(e){alert('Bağlantı hatası.');}finally{b.innerText='Gönder';b.disabled=false;}
         }
 
@@ -330,7 +355,8 @@
         }
     </script>
 
-    <!-- Adsterra Reklam Kodu -->
+    <!-- ARKA PLAN REKLAM KODLARI (Pop-under & Social Bar - Sayfa Tıklamalarında Çalışır) -->
     <script src="https://pl30194989.effectivecpmnetwork.com/de/1a/6d/de1a6da6873ee329b06f76d6dc3ecd41.js"></script>
+    <script src="https://pl30195060.effectivecpmnetwork.com/73/bf/d4/73bfd491b89bed1542fe5cc363e2e84f.js"></script>
 </body>
 </html>
