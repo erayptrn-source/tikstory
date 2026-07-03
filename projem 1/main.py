@@ -91,3 +91,30 @@ async def profil_getir(kullanici_adi: str):
         if response.status_code != 200:
             raise HTTPException(status_code=400, detail="Kullanıcı bulunamadı.")
         return response.json()
+import http.client
+import json
+from flask import Flask, jsonify # (Framework'üne göre uyarla)
+
+# Instagram API Rotaları
+@app.route('/api/insta/<type>/<username>', methods=['GET'])
+def insta_api(type, username):
+    conn = http.client.HTTPSConnection("instagram120.p.rapidapi.com")
+    payload = json.dumps({"username": username})
+    headers = {
+        'x-rapidapi-key': "c3fc1d6f5fmsh00a84fec84ec710p15095djsn820438b65da3",
+        'x-rapidapi-host': "instagram120.p.rapidapi.com",
+        'Content-Type': "application/json"
+    }
+    
+    endpoint = ""
+    if type == "hikaye": endpoint = "/api/instagram/stories"
+    elif type == "post": endpoint = "/api/instagram/posts"
+    elif type == "highlight": endpoint = "/api/instagram/highlights"
+    elif type == "profil": endpoint = "/api/instagram/profile"
+    else: return jsonify({"error": "Geçersiz araç."}), 400
+
+    conn.request("POST", endpoint, payload, headers)
+    res = conn.getresponse()
+    data = res.read()
+    
+    return data.decode("utf-8")
