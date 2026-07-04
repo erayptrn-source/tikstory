@@ -5,11 +5,12 @@ import os
 
 app = FastAPI()
 
-RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY") 
+# Şifre bulunamazsa None yerine boşluk ("") atayarak sistemin çökmesini engelliyoruz
+RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY", "") 
 HOST_SCRAPER7 = "tiktok-scraper7.p.rapidapi.com" 
 HOST_API23 = "tiktok-api23.p.rapidapi.com"
 INSTA_HOST = "instagram120.p.rapidapi.com"
-INSTA_KEY = os.environ.get("INSTA_KEY")
+INSTA_KEY = os.environ.get("INSTA_KEY", "")
 
 @app.get("/", response_class=HTMLResponse)
 async def ana_sayfa():
@@ -26,6 +27,9 @@ async def favicon():
 
 @app.get("/api/hikayeler/{kullanici_adi}")
 async def hikayeleri_getir(kullanici_adi: str):
+    if not RAPIDAPI_KEY:
+        raise HTTPException(status_code=500, detail="TikTok API anahtarı eksik.")
+        
     if kullanici_adi.startswith("@"):
         kullanici_adi = kullanici_adi[1:]
 
@@ -53,6 +57,9 @@ async def hikayeleri_getir(kullanici_adi: str):
 
 @app.get("/api/video/")
 async def video_getir(url: str):
+    if not RAPIDAPI_KEY:
+        raise HTTPException(status_code=500, detail="TikTok API anahtarı eksik.")
+        
     api_url = f"https://{HOST_API23}/api/download/video"
     headers = {
         "x-rapidapi-key": RAPIDAPI_KEY,
@@ -66,6 +73,9 @@ async def video_getir(url: str):
 
 @app.get("/api/profil/{kullanici_adi}")
 async def profil_getir(kullanici_adi: str):
+    if not RAPIDAPI_KEY:
+        raise HTTPException(status_code=500, detail="TikTok API anahtarı eksik.")
+        
     if kullanici_adi.startswith("@"):
         kullanici_adi = kullanici_adi[1:]
         
@@ -82,6 +92,10 @@ async def profil_getir(kullanici_adi: str):
 
 @app.get("/api/insta/{arac_tipi}/{kullanici_adi}")
 async def insta_getir(arac_tipi: str, kullanici_adi: str):
+    # Eğer Render şifreyi okuyamazsa dükkanı çökertmeden uyarı veriyoruz
+    if not INSTA_KEY:
+        raise HTTPException(status_code=500, detail="Instagram API anahtarı (INSTA_KEY) Render'da bulunamadı!")
+        
     if kullanici_adi.startswith("@"):
         kullanici_adi = kullanici_adi[1:]
 
@@ -111,6 +125,6 @@ async def insta_getir(arac_tipi: str, kullanici_adi: str):
         response = await client.post(url, json=payload, headers=headers)
         
         if response.status_code != 200:
-            raise HTTPException(status_code=400, detail="Instagram verisi çekilemedi veya hesap gizli.")
+            raise HTTPException(status_code=400, detail="Instagram verisi çekilemedi veya API limitiniz doldu.")
             
         return response.json()
