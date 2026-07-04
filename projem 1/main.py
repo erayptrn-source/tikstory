@@ -5,18 +5,12 @@ import os
 
 app = FastAPI()
 
-# --- API ŞİFRELERİ VE HOSTLARI ---
-# TikTok İçin: (Render'daki Environment Variables'dan çeker)
 RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY") 
 HOST_SCRAPER7 = "tiktok-scraper7.p.rapidapi.com" 
 HOST_API23 = "tiktok-api23.p.rapidapi.com"
-
-# Instagram İçin: (Senin bulduğun yeni API)
 INSTA_HOST = "instagram120.p.rapidapi.com"
-INSTA_KEY = "c3fc1d6f5fmsh00a84fec84ec710p15095djsn820438b65da3"
+INSTA_KEY = os.environ.get("INSTA_KEY")
 
-
-# --- 1. KISIM: ARAYÜZ VE DOSYA İZİNLERİ ---
 @app.get("/", response_class=HTMLResponse)
 async def ana_sayfa():
     with open("index.html", "r", encoding="utf-8") as f:
@@ -30,10 +24,6 @@ async def ads_txt():
 async def favicon():
     return FileResponse("favicon.svg")
 
-
-# --- 2. KISIM: TIKTOK ARAÇLARI ---
-
-# ARAÇ 1: HİKAYE VE PROFİL KARTI
 @app.get("/api/hikayeler/{kullanici_adi}")
 async def hikayeleri_getir(kullanici_adi: str):
     if kullanici_adi.startswith("@"):
@@ -61,7 +51,6 @@ async def hikayeleri_getir(kullanici_adi: str):
 
         return {"aranan_kisi": kullanici_adi, "profil": profil_verisi, "hikayeler": hikaye_verisi}
 
-# ARAÇ 2: VİDEO İNDİRİCİ
 @app.get("/api/video/")
 async def video_getir(url: str):
     api_url = f"https://{HOST_API23}/api/download/video"
@@ -75,7 +64,6 @@ async def video_getir(url: str):
             raise HTTPException(status_code=400, detail="Video bulunamadı veya bağlantı hatalı.")
         return response.json()
 
-# ARAÇ 3: PROFİL RESMİ (PP) BÜYÜTÜCÜ
 @app.get("/api/profil/{kullanici_adi}")
 async def profil_getir(kullanici_adi: str):
     if kullanici_adi.startswith("@"):
@@ -91,9 +79,6 @@ async def profil_getir(kullanici_adi: str):
         if response.status_code != 200:
             raise HTTPException(status_code=400, detail="Kullanıcı bulunamadı.")
         return response.json()
-
-
-# --- 3. KISIM: INSTAGRAM ARAÇLARI (YENİ EKLENEN) ---
 
 @app.get("/api/insta/{arac_tipi}/{kullanici_adi}")
 async def insta_getir(arac_tipi: str, kullanici_adi: str):
@@ -120,10 +105,8 @@ async def insta_getir(arac_tipi: str, kullanici_adi: str):
         "Content-Type": "application/json"
     }
     
-    # Instagram API'si verileri JSON formatında POST olarak istiyor
     payload = {"username": kullanici_adi}
 
-    # Asenkron (hızlı) istek atıyoruz
     async with httpx.AsyncClient(timeout=15.0) as client:
         response = await client.post(url, json=payload, headers=headers)
         
