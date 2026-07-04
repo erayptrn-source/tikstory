@@ -5,7 +5,6 @@ import os
 
 app = FastAPI()
 
-# Şifre bulunamazsa None yerine boşluk ("") atayarak sistemin çökmesini engelliyoruz
 RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY", "") 
 HOST_SCRAPER7 = "tiktok-scraper7.p.rapidapi.com" 
 HOST_API23 = "tiktok-api23.p.rapidapi.com"
@@ -92,22 +91,32 @@ async def profil_getir(kullanici_adi: str):
 
 @app.get("/api/insta/{arac_tipi}/{kullanici_adi}")
 async def insta_getir(arac_tipi: str, kullanici_adi: str):
-    # Eğer Render şifreyi okuyamazsa dükkanı çökertmeden uyarı veriyoruz
     if not INSTA_KEY:
-        raise HTTPException(status_code=500, detail="Instagram API anahtarı (INSTA_KEY) Render'da bulunamadı!")
+        raise HTTPException(status_code=500, detail="Instagram API anahtarı Render'da bulunamadı!")
         
     if kullanici_adi.startswith("@"):
         kullanici_adi = kullanici_adi[1:]
 
     endpoint = ""
+    payload = {}
+    
     if arac_tipi == "hikaye":
         endpoint = "/api/instagram/stories"
+        payload = {"username": kullanici_adi}
     elif arac_tipi == "post":
         endpoint = "/api/instagram/posts"
+        payload = {"username": kullanici_adi}
     elif arac_tipi == "highlight":
         endpoint = "/api/instagram/highlights"
+        payload = {"username": kullanici_adi}
+    elif arac_tipi == "highlight_stories":
+        # YENİ: Sadece öne çıkan albümünün içini tarayan özel rota
+        endpoint = "/api/instagram/highlightStories"
+        payload = {"id": kullanici_adi, "highlight_id": kullanici_adi, "highlightId": kullanici_adi, "username": kullanici_adi}
     elif arac_tipi == "profil":
-        endpoint = "/api/instagram/profile"
+        # YENİ: Kalitesiz Profile API'si yerine HD foto veren userInfo API'sine geçtik
+        endpoint = "/api/instagram/userInfo"
+        payload = {"username": kullanici_adi}
     else:
         raise HTTPException(status_code=400, detail="Geçersiz araç türü.")
 
@@ -118,13 +127,11 @@ async def insta_getir(arac_tipi: str, kullanici_adi: str):
         "x-rapidapi-host": INSTA_HOST,
         "Content-Type": "application/json"
     }
-    
-    payload = {"username": kullanici_adi}
 
     async with httpx.AsyncClient(timeout=15.0) as client:
         response = await client.post(url, json=payload, headers=headers)
         
         if response.status_code != 200:
-            raise HTTPException(status_code=400, detail="Instagram verisi çekilemedi veya API limitiniz doldu.")
+            raise HTTPException(status_code=400, detail="Instagram verisi çekilemedi veya hesap gizli.")
             
         return response.json()
