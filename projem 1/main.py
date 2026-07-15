@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, FileResponse
 import httpx
 import os
+import uvicorn # YENİ EKLENDİ: Sunucuyu dışarı açacak motor
 
 app = FastAPI()
 
@@ -110,11 +111,9 @@ async def insta_getir(arac_tipi: str, kullanici_adi: str):
         endpoint = "/api/instagram/highlights"
         payload = {"username": kullanici_adi}
     elif arac_tipi == "highlight_stories":
-        # YENİ: Sadece öne çıkan albümünün içini tarayan özel rota
         endpoint = "/api/instagram/highlightStories"
         payload = {"id": kullanici_adi, "highlight_id": kullanici_adi, "highlightId": kullanici_adi, "username": kullanici_adi}
     elif arac_tipi == "profil":
-        # YENİ: Kalitesiz Profile API'si yerine HD foto veren userInfo API'sine geçtik
         endpoint = "/api/instagram/userInfo"
         payload = {"username": kullanici_adi}
     else:
@@ -134,4 +133,9 @@ async def insta_getir(arac_tipi: str, kullanici_adi: str):
         if response.status_code != 200:
             raise HTTPException(status_code=400, detail="Instagram verisi çekilemedi veya hesap gizli.")
             
-        return response.json()
+        return response.json() 
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
