@@ -9,7 +9,7 @@ import uvicorn
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, PlainTextResponse, Response
 
 # --------------------------------------------------------------------------
 # Loglama: Render'daki "Logs" ekranında neler olduğunu görebilmek için.
@@ -48,6 +48,12 @@ app.add_middleware(
     allow_origins=[
         "https://tikstory.xyz",
         "https://www.tikstory.xyz",
+        "http://localhost",
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8000",
     ],
     allow_methods=["GET"],
     allow_headers=["*"],
@@ -106,6 +112,51 @@ async def ads_txt():
 @app.get("/favicon.svg")
 async def favicon():
     return FileResponse("favicon.svg")
+
+
+# --------------------------------------------------------------------------
+# SEO: Arama motoru botlarına sitenin taranabilir olduğunu ve site haritasının
+# nerede olduğunu bildirir. AdSense ve Google indekslemesi için önerilir.
+# --------------------------------------------------------------------------
+@app.get("/robots.txt", response_class=PlainTextResponse)
+async def robots_txt():
+    icerik = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "\n"
+        "Sitemap: https://tikstory.xyz/sitemap.xml\n"
+    )
+    return PlainTextResponse(content=icerik)
+
+
+@app.get("/sitemap.xml")
+async def sitemap_xml():
+    icerik = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        "  <url>\n"
+        "    <loc>https://tikstory.xyz/</loc>\n"
+        "    <changefreq>daily</changefreq>\n"
+        "    <priority>1.0</priority>\n"
+        "  </url>\n"
+        "  <url>\n"
+        "    <loc>https://tikstory.xyz/#why-safe</loc>\n"
+        "    <changefreq>weekly</changefreq>\n"
+        "    <priority>0.8</priority>\n"
+        "  </url>\n"
+        "  <url>\n"
+        "    <loc>https://tikstory.xyz/#blog-summaries</loc>\n"
+        "    <changefreq>weekly</changefreq>\n"
+        "    <priority>0.8</priority>\n"
+        "  </url>\n"
+        "  <url>\n"
+        "    <loc>https://tikstory.xyz/#sss</loc>\n"
+        "    <changefreq>weekly</changefreq>\n"
+        "    <priority>0.7</priority>\n"
+        "  </url>\n"
+        "</urlset>\n"
+    )
+    return Response(content=icerik, media_type="application/xml")
 
 
 # --------------------------------------------------------------------------
