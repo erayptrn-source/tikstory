@@ -104,14 +104,19 @@ async def health():
     return {"status": "ok", "time": time.time()}
 
 
-@app.get("/ads.txt")
+@app.get("/ads.txt", response_class=PlainTextResponse)
 async def ads_txt():
-    return FileResponse("ads.txt")
+    # Hardcoded: dosya yolu bağımlılığı olmadan her zaman çalışır
+    return PlainTextResponse(
+        "google.com, pub-9744294584076377, DIRECT, f08c47fec0942fa0\n",
+        media_type="text/plain"
+    )
 
 
 @app.get("/favicon.svg")
 async def favicon():
-    return FileResponse("favicon.svg")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    return FileResponse(os.path.join(base_dir, "favicon.svg"))
 
 
 # --------------------------------------------------------------------------
